@@ -28,10 +28,10 @@ tools:
   - tools/imagefile2image.yaml
   - tools/multiimagefiles2image.yaml
   - tools/multiimagefiles2multiimages.yaml
+  - tools/video_query.yaml
   - tools/text_2_video.yaml
   - tools/image_2_video.yaml
   - tools/images_2_video.yaml
-  - tools/video_query.yaml
 extra:
   python:
     source: provider/seedream_aigc.py
