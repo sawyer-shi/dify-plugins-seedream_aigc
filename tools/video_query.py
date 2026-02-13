@@ -93,12 +93,8 @@ class VideoQueryTool(Tool):
             yield self.create_text_message(f"📊 状态: {status}")
             if video_url:
                 yield self.create_text_message(f"🎬 视频链接: {video_url}")
-                yield self.create_blob_message(blob=video_url, meta={"mime_type": "text/plain"})
             if last_frame_url:
                 yield self.create_text_message(f"🖼️ 尾帧链接: {last_frame_url}")
-                yield self.create_blob_message(
-                    blob=last_frame_url, meta={"mime_type": "text/plain"}
-                )
 
             result_json = {
                 "task_id": task_id_result,

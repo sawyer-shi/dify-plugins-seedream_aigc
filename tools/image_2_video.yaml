@@ -57,6 +57,10 @@ parameters:
         label:
           en_US: "Seedance 1.5 Pro"
           zh_Hans: "Seedance 1.5 Pro"
+      - value: "doubao-seedance-2-0-260128"
+        label:
+          en_US: "Seedance 2.0"
+          zh_Hans: "Seedance 2.0"
   - name: resolution
     type: select
     required: false

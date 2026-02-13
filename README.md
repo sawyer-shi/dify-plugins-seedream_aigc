@@ -15,13 +15,13 @@ A powerful Dify plugin providing comprehensive AI-powered image and video genera
 ## Quick Start
 
 1. Install the plugin in your Dify environment
-2. Configure your Volcengine API credentials (API Key and Endpoint ID)
+2. Configure your Volcengine API credentials (API Key)
 3. Start generating images and videos with AI
 
 ## Key Features
 
 - **Multiple Generation Modes**: Text-to-image, text-to-video, image-to-image, image-to-video, multi-image fusion
-- **Latest AI Models**: Supports Seedream 4.0, 4.5, 5.0 Lite for images; Seedance 1.0 Pro, 1.0 Pro Fast, 1.5 Pro for videos
+- **Latest AI Models**: Supports Seedream 4.0, 4.5, 5.0 Lite for images; Seedance 1.0 Pro, 1.0 Pro Fast, 1.5 Pro, 2.0 for videos
 - **Flexible Image Sizes**: Multiple aspect ratios from 1:1 to 21:9 with resolutions up to 3024x1296
 - **Video Generation**: Create videos up to 12 seconds with synchronized audio (Seedance 1.5 Pro)
 - **Multi-Image Support**: Generate images from multiple reference images (2-14 images)
@@ -74,7 +74,7 @@ Generate a group of images from text and multiple reference images.
 
 #### Text to Video (text_2_video)
 Generate videos from text descriptions using Seedance models.
-- **Supported Models**: Seedance 1.0 Pro, Seedance 1.0 Pro Fast, Seedance 1.5 Pro
+- **Supported Models**: Seedance 1.0 Pro, Seedance 1.0 Pro Fast, Seedance 1.5 Pro, Seedance 2.0
 - **Features**:
   - Duration: 2-12 seconds
   - Resolution: 480p, 720p, 1080p
@@ -86,7 +86,7 @@ Generate videos from text descriptions using Seedance models.
 
 #### Image to Video (image_2_video)
 Generate video from a single image with text description.
-- **Supported Models**: Seedance 1.0 Pro, Seedance 1.0 Pro Fast, Seedance 1.5 Pro
+- **Supported Models**: Seedance 1.0 Pro, Seedance 1.0 Pro Fast, Seedance 1.5 Pro, Seedance 2.0
 - **Features**:
   - Single image input
   - Duration: 2-12 seconds
@@ -97,7 +97,7 @@ Generate video from a single image with text description.
 
 #### First-Last Frame Video (images_2_video)
 Generate video from first and last frame images.
-- **Supported Models**: Seedance 1.0 Pro, Seedance 1.5 Pro
+- **Supported Models**: Seedance 1.0 Pro, Seedance 1.5 Pro, Seedance 2.0
 - **Features**:
   - First and last frame input
   - Smooth transition generation
@@ -128,10 +128,11 @@ Query the status and results of video generation tasks.
 
 - Python 3.12
 - Dify Platform access
-- Volcengine API credentials (API Key and Endpoint ID)
+- Volcengine API credentials (API Key)
 - Required Python packages (installed via requirements.txt):
   - dify_plugin>=0.2.0
-  - volcengine-python-sdk>=1.0.0
+  - requests>=2.31.0,<3.0.0
+  - pillow>=10.0.0,<11.0.0
 
 ## Installation & Configuration
 
@@ -142,7 +143,6 @@ Query the status and results of video generation tasks.
 
 2. Configure your Volcengine API credentials in the plugin settings:
    - **API Key**: Your Volcengine API key
-   - **Endpoint ID**: Your model endpoint ID
 
 3. Install the plugin in your Dify environment
 
@@ -201,6 +201,7 @@ Generate videos from text descriptions.
   - `watermark`: Enable/disable watermark
   - `generate_audio`: Generate synchronized audio
   - `draft`: Draft mode for quick preview
+  - `return_last_frame`: Return last frame image in query
   - `service_tier`: Service tier (default/flex)
 
 #### 6. Image to Video

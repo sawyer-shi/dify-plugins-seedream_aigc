@@ -15,13 +15,13 @@
 ## 快速开始
 
 1. 在您的 Dify 环境中安装插件
-2. 配置火山引擎 API 凭证（API Key 和 Endpoint ID）
+2. 配置火山引擎 API 凭证（API Key）
 3. 开始使用 AI 生成图像和视频
 
 ## 核心特性
 
 - **多种生成模式**: 文生图、文生视频、图生图、图生视频、多图融合
-- **最新 AI 模型**: 支持图像生成使用 Seedream 4.0、4.5、5.0 Lite；视频生成使用 Seedance 1.0 Pro、1.0 Pro Fast、1.5 Pro
+- **最新 AI 模型**: 支持图像生成使用 Seedream 4.0、4.5、5.0 Lite；视频生成使用 Seedance 1.0 Pro、1.0 Pro Fast、1.5 Pro、2.0
 - **灵活的图像尺寸**: 多种宽高比，从 1:1 到 21:9，分辨率高达 3024x1296
 - **视频生成**: 创建最长 12 秒的视频，支持同步音频生成（Seedance 1.5 Pro）
 - **多图支持**: 从多张参考图像生成图像（2-14 张）
@@ -74,7 +74,7 @@
 
 #### 文生视频 (text_2_video)
 使用 Seedance 模型根据文本描述生成视频。
-- **支持模型**: Seedance 1.0 Pro, Seedance 1.0 Pro Fast, Seedance 1.5 Pro
+- **支持模型**: Seedance 1.0 Pro, Seedance 1.0 Pro Fast, Seedance 1.5 Pro, Seedance 2.0
 - **功能特性**:
   - 时长：2-12 秒
   - 分辨率：480p、720p、1080p
@@ -86,7 +86,7 @@
 
 #### 图生视频 (image_2_video)
 根据单张图像和文本描述生成视频。
-- **支持模型**: Seedance 1.0 Pro, Seedance 1.0 Pro Fast, Seedance 1.5 Pro
+- **支持模型**: Seedance 1.0 Pro, Seedance 1.0 Pro Fast, Seedance 1.5 Pro, Seedance 2.0
 - **功能特性**:
   - 单张图像输入
   - 时长：2-12 秒
@@ -97,7 +97,7 @@
 
 #### 首尾帧图生视频 (images_2_video)
 根据首帧和尾帧图像生成视频。
-- **支持模型**: Seedance 1.0 Pro, Seedance 1.5 Pro
+- **支持模型**: Seedance 1.0 Pro, Seedance 1.5 Pro, Seedance 2.0
 - **功能特性**:
   - 首帧和尾帧输入
   - 平滑过渡生成
@@ -128,10 +128,11 @@
 
 - Python 3.12
 - Dify 平台访问权限
-- 火山引擎 API 凭证（API Key 和 Endpoint ID）
+- 火山引擎 API 凭证（API Key）
 - 所需的 Python 包（通过 requirements.txt 安装）:
   - dify_plugin>=0.2.0
-  - volcengine-python-sdk>=1.0.0
+  - requests>=2.31.0,<3.0.0
+  - pillow>=10.0.0,<11.0.0
 
 ## 安装与配置
 
@@ -142,7 +143,6 @@
 
 2. 在插件设置中配置火山引擎 API 凭证：
    - **API Key**: 您的火山引擎 API 密钥
-   - **Endpoint ID**: 您的模型端点 ID
 
 3. 在您的 Dify 环境中安装插件
 
@@ -201,6 +201,7 @@
   - `watermark`: 启用/禁用水印
   - `generate_audio`: 生成同步音频
   - `draft`: 样片模式快速预览
+  - `return_last_frame`: 查询结果返回尾帧图像
   - `service_tier`: 服务等级（default/flex）
 
 #### 6. 图生视频
