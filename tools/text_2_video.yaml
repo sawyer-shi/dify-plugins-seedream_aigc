@@ -2,8 +2,8 @@ identity:
   name: "text_2_video"
   author: "sawyer-shi"
   label:
-    en_US: "Seedream AIGC Text to Video"
-    zh_Hans: "即梦AIGC-文生视频"
+    en_US: "Seedance Text to Video"
+    zh_Hans: "Seedance-文生视频"
 description:
   human:
     en_US: "Generate videos from text descriptions using Volcengine Doubao Seedance models"

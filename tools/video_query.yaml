@@ -2,8 +2,8 @@ identity:
   name: "video_query"
   author: "sawyer-shi"
   label:
-    en_US: "Seedream AIGC Video Query"
-    zh_Hans: "即梦AIGC-视频结果查询"
+    en_US: "Seedance Video Query"
+    zh_Hans: "Seedance-视频结果查询"
 description:
   human:
     en_US: "Query the status and results of video generation tasks using Volcengine Doubao Seedance models"

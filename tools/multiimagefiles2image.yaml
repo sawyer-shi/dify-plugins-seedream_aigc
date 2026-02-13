@@ -2,8 +2,8 @@ identity:
   name: "multiimagefiles2image"
   author: "sawyer-shi"
   label:
-    en_US: "Seedream AIGC Multi-Image Fusion"
-    zh_Hans: "即梦AIGC-多图融合"
+    en_US: "Seedream Multi-Image Fusion"
+    zh_Hans: "Seedream-多图融合"
 description:
   human:
     en_US: "Generate an image from text and multiple reference images using Volcengine Doubao Seedream models"

@@ -2,8 +2,8 @@ identity:
   name: "imagefile2image"
   author: "sawyer-shi"
   label:
-    en_US: "Seedream AIGC Image to Image"
-    zh_Hans: "即梦AIGC-图生图"
+    en_US: "Seedream Image to Image"
+    zh_Hans: "Seedream-图生图"
 description:
   human:
     en_US: "Generate images from text and a reference image using Volcengine Doubao Seedream models"

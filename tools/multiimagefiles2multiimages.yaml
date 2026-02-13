@@ -2,8 +2,8 @@ identity:
   author: "sawyer-shi"
   name: "multiimagefiles2multiimages"
   label:
-    en_US: "Seedream AIGC Multi-Image Group"
-    zh_Hans: "即梦AIGC-多参考图生组图"
+    en_US: "Seedream Multi-Image Group"
+    zh_Hans: "Seedream-多参考图生组图"
   icon: icon.svg
   tags:
     - image
@@ -92,7 +92,7 @@ parameters:
       zh_Hans: "本次最多生成图片数量(1-15)"
     llm_description: "Maximum number of images to generate"
     form: form
-    default: 4
+    default: 3
     min: 1
     max: 15
   - name: watermark

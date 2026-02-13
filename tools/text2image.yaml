@@ -2,8 +2,8 @@ identity:
   name: "text2image"
   author: "sawyer-shi"
   label:
-    en_US: "Seedream AIGC Text to Image"
-    zh_Hans: "即梦AIGC-文生图"
+    en_US: "Seedream Text to Image"
+    zh_Hans: "Seedream-文生图"
 description:
   human:
     en_US: "Generate images from text descriptions using Volcengine Doubao Seedream models"
