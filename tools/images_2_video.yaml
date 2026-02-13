@@ -1,0 +1,298 @@
+identity:
+  author: "sawyer-shi"
+  name: "images_2_video"
+  label:
+    en_US: "Seedream AIGC First-Last Frame Video"
+    zh_Hans: "即梦AIGC-首尾帧图生视频"
+  icon: icon.svg
+  tags:
+    - image
+    - video
+    - generation
+description:
+  human:
+    en_US: "Generate video from first and last frame images using Volcengine Doubao Seedance models"
+    zh_Hans: "使用火山引擎豆包Seedance模型从首尾帧图片生成视频"
+  llm: "Generate video from first and last frame images using Volcengine Doubao Seedance models"
+parameters:
+  - name: prompt
+    type: string
+    required: true
+    label:
+      en_US: Prompt
+      zh_Hans: 提示词
+    human_description:
+      en_US: "Text description of the video you want to generate (max 500 chars)"
+      zh_Hans: "您想要生成的视频的文本描述（最多500字）"
+    llm_description: "Text description of the video to generate (max 500 chars)"
+    form: llm
+  - name: first_frame_file
+    type: file
+    required: true
+    label:
+      en_US: First Frame Image
+      zh_Hans: 首帧图像
+    human_description:
+      en_US: "First frame image for video generation"
+      zh_Hans: "视频生成的首帧图像"
+    llm_description: "First frame image for video generation"
+    form: llm
+  - name: last_frame_file
+    type: file
+    required: true
+    label:
+      en_US: Last Frame Image
+      zh_Hans: 尾帧图像
+    human_description:
+      en_US: "Last frame image for video generation"
+      zh_Hans: "视频生成的尾帧图像"
+    llm_description: "Last frame image for video generation"
+    form: llm
+  - name: model
+    type: select
+    required: false
+    label:
+      en_US: Model
+      zh_Hans: 模型
+    human_description:
+      en_US: "Model for video generation"
+      zh_Hans: "视频生成模型"
+    llm_description: "Model for video generation"
+    form: form
+    default: "doubao-seedance-1-5-pro-251215"
+    options:
+      - value: "doubao-seedance-1-0-pro-250528"
+        label:
+          en_US: "Seedance 1.0 Pro"
+          zh_Hans: "Seedance 1.0 Pro"
+      - value: "doubao-seedance-1-0-pro-fast-251015"
+        label:
+          en_US: "Seedance 1.0 Pro Fast"
+          zh_Hans: "Seedance 1.0 Pro Fast"
+      - value: "doubao-seedance-1-5-pro-251215"
+        label:
+          en_US: "Seedance 1.5 Pro"
+          zh_Hans: "Seedance 1.5 Pro"
+  - name: resolution
+    type: select
+    required: false
+    label:
+      en_US: Resolution
+      zh_Hans: 分辨率
+    human_description:
+      en_US: "Video resolution"
+      zh_Hans: "视频分辨率"
+    llm_description: "Video resolution"
+    form: form
+    default: "720p"
+    options:
+      - value: "480p"
+        label:
+          en_US: "480p"
+          zh_Hans: "480p"
+      - value: "720p"
+        label:
+          en_US: "720p"
+          zh_Hans: "720p"
+      - value: "1080p"
+        label:
+          en_US: "1080p"
+          zh_Hans: "1080p"
+  - name: ratio
+    type: select
+    required: false
+    label:
+      en_US: Aspect Ratio
+      zh_Hans: 宽高比
+    human_description:
+      en_US: "Video aspect ratio"
+      zh_Hans: "视频宽高比"
+    llm_description: "Video aspect ratio"
+    form: form
+    default: "16:9"
+    options:
+      - value: "16:9"
+        label:
+          en_US: "16:9"
+          zh_Hans: "16:9"
+      - value: "4:3"
+        label:
+          en_US: "4:3"
+          zh_Hans: "4:3"
+      - value: "1:1"
+        label:
+          en_US: "1:1"
+          zh_Hans: "1:1"
+      - value: "3:4"
+        label:
+          en_US: "3:4"
+          zh_Hans: "3:4"
+      - value: "9:16"
+        label:
+          en_US: "9:16"
+          zh_Hans: "9:16"
+      - value: "21:9"
+        label:
+          en_US: "21:9"
+          zh_Hans: "21:9"
+      - value: "adaptive"
+        label:
+          en_US: "Adaptive"
+          zh_Hans: "自适应"
+  - name: duration
+    type: number
+    required: false
+    label:
+      en_US: Duration (seconds)
+      zh_Hans: 时长(秒)
+    human_description:
+      en_US: "Video duration in seconds (2-12)"
+      zh_Hans: "视频时长(2-12秒)"
+    llm_description: "Video duration in seconds (2-12)"
+    form: form
+    default: 5
+    min: 2
+    max: 12
+  - name: seed
+    type: number
+    required: false
+    label:
+      en_US: Seed
+      zh_Hans: 种子
+    human_description:
+      en_US: "Random seed for reproducible results (-1 for random)"
+      zh_Hans: "随机种子，用于生成可重复的结果(-1为随机)"
+    llm_description: "Random seed for reproducible results (-1 for random)"
+    form: form
+    default: -1
+    min: -1
+    max: 4294967295
+  - name: camera_fixed
+    type: select
+    required: false
+    label:
+      en_US: Fixed Camera
+      zh_Hans: 固定摄像头
+    human_description:
+      en_US: "Whether to fix camera position"
+      zh_Hans: "是否固定摄像头位置"
+    llm_description: "Whether to fix camera position"
+    form: form
+    default: "false"
+    options:
+      - value: "true"
+        label:
+          en_US: "Enabled"
+          zh_Hans: "启用"
+      - value: "false"
+        label:
+          en_US: "Disabled"
+          zh_Hans: "禁用"
+  - name: watermark
+    type: select
+    required: false
+    label:
+      en_US: Watermark
+      zh_Hans: 水印
+    human_description:
+      en_US: "Whether to add watermark to the video"
+      zh_Hans: "是否在视频中添加水印"
+    llm_description: "Whether to add watermark to the video"
+    form: form
+    default: "false"
+    options:
+      - value: "true"
+        label:
+          en_US: "Enabled"
+          zh_Hans: "启用"
+      - value: "false"
+        label:
+          en_US: "Disabled"
+          zh_Hans: "禁用"
+  - name: generate_audio
+    type: select
+    required: false
+    label:
+      en_US: Audio
+      zh_Hans: 音频
+    human_description:
+      en_US: "Whether to generate synchronized audio (Seedance 1.5 pro only)"
+      zh_Hans: "是否生成同步音频（仅Seedance 1.5 pro）"
+    llm_description: "Whether to generate synchronized audio"
+    form: form
+    default: "true"
+    options:
+      - value: "true"
+        label:
+          en_US: "Enabled"
+          zh_Hans: "启用"
+      - value: "false"
+        label:
+          en_US: "Disabled"
+          zh_Hans: "禁用"
+  - name: draft
+    type: select
+    required: false
+    label:
+      en_US: Draft Mode
+      zh_Hans: 样片模式
+    human_description:
+      en_US: "Generate draft video (Seedance 1.5 pro only)"
+      zh_Hans: "生成样片视频（仅Seedance 1.5 pro）"
+    llm_description: "Generate draft video"
+    form: form
+    default: "false"
+    options:
+      - value: "true"
+        label:
+          en_US: "Enabled"
+          zh_Hans: "启用"
+      - value: "false"
+        label:
+          en_US: "Disabled"
+          zh_Hans: "禁用"
+  - name: return_last_frame
+    type: select
+    required: false
+    label:
+      en_US: Return Last Frame
+      zh_Hans: 返回尾帧
+    human_description:
+      en_US: "Return last frame image in query"
+      zh_Hans: "查询结果返回尾帧图像"
+    llm_description: "Return last frame image"
+    form: form
+    default: "false"
+    options:
+      - value: "true"
+        label:
+          en_US: "Enabled"
+          zh_Hans: "启用"
+      - value: "false"
+        label:
+          en_US: "Disabled"
+          zh_Hans: "禁用"
+  - name: service_tier
+    type: select
+    required: false
+    label:
+      en_US: Service Tier
+      zh_Hans: 服务等级
+    human_description:
+      en_US: "Service tier: default or flex"
+      zh_Hans: "服务等级：default 或 flex"
+    llm_description: "Service tier"
+    form: form
+    default: "default"
+    options:
+      - value: "default"
+        label:
+          en_US: "Default"
+          zh_Hans: "默认"
+      - value: "flex"
+        label:
+          en_US: "Flex"
+          zh_Hans: "离线"
+extra:
+  python:
+    source: tools/images_2_video.py

@@ -1,0 +1,146 @@
+identity:
+  author: "sawyer-shi"
+  name: "multiimagefiles2multiimages"
+  label:
+    en_US: "Seedream AIGC Multi-Image Group"
+    zh_Hans: "即梦AIGC-多参考图生组图"
+  icon: icon.svg
+  tags:
+    - image
+    - generation
+description:
+  human:
+    en_US: "Generate a group of images from text and multiple reference images using Volcengine Doubao Seedream models"
+    zh_Hans: "使用火山引擎豆包Seedream模型根据文本与多张参考图像生成组图"
+  llm: "Generate a group of images from text and multiple reference images using Volcengine Doubao Seedream models"
+parameters:
+  - name: prompt
+    type: string
+    required: true
+    label:
+      en_US: Prompt
+      zh_Hans: 提示词
+    human_description:
+      en_US: "Text description of the images you want to generate"
+      zh_Hans: "您想要生成的图像组的文本描述"
+    llm_description: "Text description of the images to generate"
+    form: llm
+  - name: input_image_files
+    type: files
+    required: true
+    label:
+      en_US: Reference Images
+      zh_Hans: 参考图片列表
+    human_description:
+      en_US: "Reference image files for generation (2-14 images)"
+      zh_Hans: "用于生成的参考图片文件（2-14张）"
+    llm_description: "Reference image files to use for generation"
+    form: llm
+  - name: size
+    type: select
+    required: false
+    label:
+      en_US: Image Size
+      zh_Hans: 图像尺寸
+    human_description:
+      en_US: "Size of the generated image"
+      zh_Hans: "生成图像的尺寸"
+    llm_description: "Size of the generated image"
+    form: form
+    default: "2048x2048"
+    options:
+      - value: "2048x2048"
+        label:
+          en_US: "1:1 (2048x2048)"
+          zh_Hans: "1:1 (2048x2048)"
+      - value: "2304x1728"
+        label:
+          en_US: "4:3 (2304x1728)"
+          zh_Hans: "4:3 (2304x1728)"
+      - value: "1728x2304"
+        label:
+          en_US: "3:4 (1728x2304)"
+          zh_Hans: "3:4 (1728x2304)"
+      - value: "2560x1440"
+        label:
+          en_US: "16:9 (2560x1440)"
+          zh_Hans: "16:9 (2560x1440)"
+      - value: "1440x2560"
+        label:
+          en_US: "9:16 (1440x2560)"
+          zh_Hans: "9:16 (1440x2560)"
+      - value: "2496x1664"
+        label:
+          en_US: "3:2 (2496x1664)"
+          zh_Hans: "3:2 (2496x1664)"
+      - value: "1664x2496"
+        label:
+          en_US: "2:3 (1664x2496)"
+          zh_Hans: "2:3 (1664x2496)"
+      - value: "3024x1296"
+        label:
+          en_US: "21:9 (3024x1296)"
+          zh_Hans: "21:9 (3024x1296)"
+  - name: max_images
+    type: number
+    required: false
+    label:
+      en_US: Max Images
+      zh_Hans: 最大生成张数
+    human_description:
+      en_US: "Maximum number of images to generate (1-15)"
+      zh_Hans: "本次最多生成图片数量(1-15)"
+    llm_description: "Maximum number of images to generate"
+    form: form
+    default: 4
+    min: 1
+    max: 15
+  - name: watermark
+    type: select
+    required: false
+    label:
+      en_US: Watermark
+      zh_Hans: 水印
+    human_description:
+      en_US: "Whether to add 'AI Generated' watermark to the image"
+      zh_Hans: "是否在图像上添加'AI生成'水印"
+    llm_description: "Whether to add 'AI Generated' watermark to the image"
+    form: form
+    default: "true"
+    options:
+      - value: "true"
+        label:
+          en_US: "Enabled"
+          zh_Hans: "启用"
+      - value: "false"
+        label:
+          en_US: "Disabled"
+          zh_Hans: "禁用"
+  - name: model
+    type: select
+    required: false
+    label:
+      en_US: Model Version
+      zh_Hans: 模型版本
+    human_description:
+      en_US: "Choose the Seedream model version to use"
+      zh_Hans: "选择要使用的Seedream模型版本"
+    llm_description: "Choose the Seedream model version to use"
+    form: form
+    default: "doubao-seedream-4-5-251128"
+    options:
+      - value: "doubao-seedream-4-0-250828"
+        label:
+          en_US: "Seedream4.0"
+          zh_Hans: "Seedream4.0"
+      - value: "doubao-seedream-4-5-251128"
+        label:
+          en_US: "Seedream4.5"
+          zh_Hans: "Seedream4.5"
+      - value: "seedream-5-0-260128"
+        label:
+          en_US: "Seedream5.0 Lite"
+          zh_Hans: "Seedream5.0 Lite"
+extra:
+  python:
+    source: tools/multiimagefiles2multiimages.py

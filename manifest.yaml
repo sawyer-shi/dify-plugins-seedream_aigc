@@ -1,0 +1,48 @@
+version: 0.0.1
+type: plugin
+author: sawyer-shi
+name: seedream_aigc
+label:
+  en_US: "Seedream AIGC"
+  zh_Hans: "即梦AIGC"
+description:
+  en_US: "Seedream AIGC: Supports full-featured image and video generation across the series, powered by the latest Doubao Dream models (Seedream-4.0, Seedream-4.5, Seedream-5.0-lite, and Seedance-1.0-pro-fast, Seedance-1.5-pro, Seedance-2.0)."
+  zh_Hans: "即梦AIGC：支持全功能系列的图片生成和视频生成，使用最新的豆包即梦模型(Seedream-4.0、Seedream-4.5、Seedream-5.0-lite和Seedance-1.0-pro-fast、Seedance-1.5-pro和Seedance-2.0)。"
+icon: icon.png
+resource:
+  memory: 268435456
+  permission:
+    tool:
+      enabled: true
+    model:
+      enabled: true
+      llm: false
+      text_embedding: false
+      rerank: false
+      tts: false
+      speech2text: false
+      moderation: false
+    endpoint:
+      enabled: true
+    app:
+      enabled: true
+    storage:
+      enabled: true
+      size: 1048576
+plugins:
+  tools:
+    - provider/seedream_aigc.yaml
+meta:
+  version: 0.0.1
+  arch:
+    - amd64
+    - arm64
+  runner:
+    language: python
+    version: "3.12"
+    entrypoint: main
+  minimum_dify_version: null
+created_at: 2026-02-13T11:23:01.0596329+08:00
+privacy: PRIVACY.md
+repo: https://github.com/sawyer-shi/dify-plugins-seedream_aigc
+verified: false

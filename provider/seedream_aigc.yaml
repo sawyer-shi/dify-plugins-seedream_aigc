@@ -1,0 +1,37 @@
+credentials_for_provider:
+  api_key:
+    help:
+      en_US: Get your Volcengine API key. Ensure required models are enabled.
+      zh_Hans: 从火山引擎平台获取您的API Key，确保已开通相关模型。
+    label:
+      en_US: Volcengine API Key
+      zh_Hans: Volcengine API Key
+    placeholder:
+      en_US: Please input your Volcengine API Key
+      zh_Hans: 请输入您的Volcengine API Key
+    required: true
+    type: secret-input
+    url: https://console.volcengine.com/ark/region:ark+cn-beijing/apiKey
+
+identity:
+  author: "sawyer-shi"
+  name: "seedream_aigc"
+  label:
+    en_US: "Seedream AIGC"
+    zh_Hans: "即梦AIGC"
+  description:
+    en_US: "Seedream AIGC: Supports full-featured image and video generation across the series, powered by the latest Doubao Dream models (Seedream-4.0, Seedream-4.5, Seedream-5.0-lite, and Seedance-1.0-pro-fast, Seedance-1.5-pro, Seedance-2.0)."
+    zh_Hans: "即梦AIGC：支持全功能系列的图片生成和视频生成，使用最新的豆包即梦模型(Seedream-4.0、Seedream-4.5、Seedream-5.0-lite和Seedance-1.0-pro-fast、Seedance-1.5-pro和Seedance-2.0)。"
+  icon: "icon.png"
+tools:
+  - tools/text2image.yaml
+  - tools/imagefile2image.yaml
+  - tools/multiimagefiles2image.yaml
+  - tools/multiimagefiles2multiimages.yaml
+  - tools/text_2_video.yaml
+  - tools/image_2_video.yaml
+  - tools/images_2_video.yaml
+  - tools/video_query.yaml
+extra:
+  python:
+    source: provider/seedream_aigc.py
