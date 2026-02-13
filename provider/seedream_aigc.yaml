@@ -24,10 +24,10 @@ identity:
     zh_Hans: "即梦AIGC：支持全功能系列的图片生成和视频生成，使用最新的豆包即梦模型(Seedream-5.0和Seedance-2.0，以及Seedream-4.0, Seedream-4.5、Seedance-1.0-pro-fast 和 Seedance-1.5-pro)。"
   icon: "icon.png"
 tools:
-  - tools/text2image.yaml
-  - tools/imagefile2image.yaml
-  - tools/multiimagefiles2image.yaml
-  - tools/multiimagefiles2multiimages.yaml
+  - tools/text_2_image.yaml
+  - tools/image_2_image.yaml
+  - tools/multi_images_2_image.yaml
+  - tools/multi_images_2_multi_images.yaml
   - tools/video_query.yaml
   - tools/text_2_video.yaml
   - tools/image_2_video.yaml

@@ -1,14 +1,14 @@
 identity:
-  name: "multiimagefiles2image"
+  name: "imagefile2image"
   author: "sawyer-shi"
   label:
-    en_US: "Seedream Multi-Image Fusion"
-    zh_Hans: "Seedream-多图融合"
+    en_US: "Seedream Image to Image"
+    zh_Hans: "Seedream-图生图"
 description:
   human:
-    en_US: "Generate an image from text and multiple reference images using Volcengine Doubao Seedream models"
-    zh_Hans: "使用火山引擎豆包Seedream模型根据文本与多张参考图像生成图像"
-  llm: "Generate an image from text and multiple reference images using Volcengine Doubao Seedream models"
+    en_US: "Generate images from text and a reference image using Volcengine Doubao Seedream models"
+    zh_Hans: "使用火山引擎豆包Seedream模型根据文本描述和参考图像生成图像"
+  llm: "Generate images from text and a reference image using Volcengine Doubao Seedream models"
 parameters:
   - name: prompt
     type: string
@@ -21,16 +21,16 @@ parameters:
       zh_Hans: "您想要生成的图像的文本描述"
     llm_description: "Text description of the image to generate"
     form: llm
-  - name: input_image_files
-    type: files
+  - name: input_image_file
+    type: file
     required: true
     label:
-      en_US: Reference Images
-      zh_Hans: 参考图片列表
+      en_US: Reference Image File
+      zh_Hans: 参考图片文件
     human_description:
-      en_US: "Reference image files for generation (2-14 images)"
-      zh_Hans: "用于生成的参考图片文件（2-14张）"
-    llm_description: "Reference image files to use for generation"
+      en_US: "Reference image file for generation (jpeg, png, webp, bmp, tiff, gif; <=10MB)"
+      zh_Hans: "用于生成的参考图片文件（jpeg、png、webp、bmp、tiff、gif；<=10MB）"
+    llm_description: "Reference image file to use for generation"
     form: llm
   - name: size
     type: select
@@ -125,4 +125,4 @@ parameters:
           zh_Hans: "Seedream5.0 Lite"
 extra:
   python:
-    source: tools/multiimagefiles2image.py
+    source: tools/image_2_image.py

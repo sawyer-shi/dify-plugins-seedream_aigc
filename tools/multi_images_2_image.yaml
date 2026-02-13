@@ -1,18 +1,14 @@
 identity:
+  name: "multiimagefiles2image"
   author: "sawyer-shi"
-  name: "multiimagefiles2multiimages"
   label:
-    en_US: "Seedream Multi-Image Group"
-    zh_Hans: "Seedream-多参考图生组图"
-  icon: icon.svg
-  tags:
-    - image
-    - generation
+    en_US: "Seedream Multi-Image Fusion"
+    zh_Hans: "Seedream-多图融合"
 description:
   human:
-    en_US: "Generate a group of images from text and multiple reference images using Volcengine Doubao Seedream models"
-    zh_Hans: "使用火山引擎豆包Seedream模型根据文本与多张参考图像生成组图"
-  llm: "Generate a group of images from text and multiple reference images using Volcengine Doubao Seedream models"
+    en_US: "Generate an image from text and multiple reference images using Volcengine Doubao Seedream models"
+    zh_Hans: "使用火山引擎豆包Seedream模型根据文本与多张参考图像生成图像"
+  llm: "Generate an image from text and multiple reference images using Volcengine Doubao Seedream models"
 parameters:
   - name: prompt
     type: string
@@ -21,9 +17,9 @@ parameters:
       en_US: Prompt
       zh_Hans: 提示词
     human_description:
-      en_US: "Text description of the images you want to generate"
-      zh_Hans: "您想要生成的图像组的文本描述"
-    llm_description: "Text description of the images to generate"
+      en_US: "Text description of the image you want to generate"
+      zh_Hans: "您想要生成的图像的文本描述"
+    llm_description: "Text description of the image to generate"
     form: llm
   - name: input_image_files
     type: files
@@ -81,20 +77,6 @@ parameters:
         label:
           en_US: "21:9 (3024x1296)"
           zh_Hans: "21:9 (3024x1296)"
-  - name: max_images
-    type: number
-    required: false
-    label:
-      en_US: Max Images
-      zh_Hans: 最大生成张数
-    human_description:
-      en_US: "Maximum number of images to generate (1-15)"
-      zh_Hans: "本次最多生成图片数量(1-15)"
-    llm_description: "Maximum number of images to generate"
-    form: form
-    default: 3
-    min: 1
-    max: 15
   - name: watermark
     type: select
     required: false
@@ -143,4 +125,4 @@ parameters:
           zh_Hans: "Seedream5.0 Lite"
 extra:
   python:
-    source: tools/multiimagefiles2multiimages.py
+    source: tools/multi_images_2_image.py

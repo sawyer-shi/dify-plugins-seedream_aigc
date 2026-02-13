@@ -1,14 +1,18 @@
 identity:
-  name: "text2image"
   author: "sawyer-shi"
+  name: "multiimagefiles2multiimages"
   label:
-    en_US: "Seedream Text to Image"
-    zh_Hans: "Seedream-文生图"
+    en_US: "Seedream Multi-Image Group"
+    zh_Hans: "Seedream-多参考图生组图"
+  icon: icon.svg
+  tags:
+    - image
+    - generation
 description:
   human:
-    en_US: "Generate images from text descriptions using Volcengine Doubao Seedream models"
-    zh_Hans: "使用火山引擎豆包Seedream模型根据文本描述生成图像"
-  llm: "Generate images from text descriptions using Volcengine Doubao Seedream models"
+    en_US: "Generate a group of images from text and multiple reference images using Volcengine Doubao Seedream models"
+    zh_Hans: "使用火山引擎豆包Seedream模型根据文本与多张参考图像生成组图"
+  llm: "Generate a group of images from text and multiple reference images using Volcengine Doubao Seedream models"
 parameters:
   - name: prompt
     type: string
@@ -17,9 +21,20 @@ parameters:
       en_US: Prompt
       zh_Hans: 提示词
     human_description:
-      en_US: "Text description of the image you want to generate"
-      zh_Hans: "您想要生成的图像的文本描述"
-    llm_description: "Text description of the image to generate"
+      en_US: "Text description of the images you want to generate"
+      zh_Hans: "您想要生成的图像组的文本描述"
+    llm_description: "Text description of the images to generate"
+    form: llm
+  - name: input_image_files
+    type: files
+    required: true
+    label:
+      en_US: Reference Images
+      zh_Hans: 参考图片列表
+    human_description:
+      en_US: "Reference image files for generation (2-14 images)"
+      zh_Hans: "用于生成的参考图片文件（2-14张）"
+    llm_description: "Reference image files to use for generation"
     form: llm
   - name: size
     type: select
@@ -66,6 +81,20 @@ parameters:
         label:
           en_US: "21:9 (3024x1296)"
           zh_Hans: "21:9 (3024x1296)"
+  - name: max_images
+    type: number
+    required: false
+    label:
+      en_US: Max Images
+      zh_Hans: 最大生成张数
+    human_description:
+      en_US: "Maximum number of images to generate (1-15)"
+      zh_Hans: "本次最多生成图片数量(1-15)"
+    llm_description: "Maximum number of images to generate"
+    form: form
+    default: 3
+    min: 1
+    max: 15
   - name: watermark
     type: select
     required: false
@@ -114,4 +143,4 @@ parameters:
           zh_Hans: "Seedream5.0 Lite"
 extra:
   python:
-    source: tools/text2image.py
+    source: tools/multi_images_2_multi_images.py
