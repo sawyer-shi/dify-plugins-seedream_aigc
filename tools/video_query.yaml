@@ -21,6 +21,27 @@ parameters:
       zh_Hans: "要查询的视频生成任务的ID"
     llm_description: "The ID of the video generation task to query"
     form: llm
+  - name: download_video
+    type: select
+    required: false
+    label:
+      en_US: Download Video
+      zh_Hans: 下载视频
+    human_description:
+      en_US: "Download the video file when available"
+      zh_Hans: "当视频可用时下载视频文件"
+    llm_description: "Download the video file when available"
+    form: form
+    default: "true"
+    options:
+      - value: "true"
+        label:
+          en_US: "Enabled"
+          zh_Hans: "启用"
+      - value: "false"
+        label:
+          en_US: "Disabled"
+          zh_Hans: "禁用"
 extra:
   python:
     source: tools/video_query.py

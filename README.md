@@ -223,6 +223,7 @@ Generate video from first and last frame images.
 Query video generation task status.
 - **Parameters**:
   - `task_id`: Video generation task ID (required)
+  - `download_video`: Download video file when available (default: true)
 
 ## Supported Image Sizes
 

@@ -34,6 +34,8 @@ class VideoQueryTool(Tool):
                 yield self.create_text_message(msg)
                 return
 
+            download_video = tool_parameters.get("download_video", "true") == "true"
+
             api_url = (
                 "https://ark.cn-beijing.volces.com/api/v3/contents/generations/tasks/"
                 f"{task_id}"
@@ -93,6 +95,22 @@ class VideoQueryTool(Tool):
             yield self.create_text_message(f"📊 状态: {status}")
             if video_url:
                 yield self.create_text_message(f"🎬 视频链接: {video_url}")
+                if download_video:
+                    yield self.create_text_message("⬇️ 正在下载视频文件...")
+                    try:
+                        video_response = requests.get(video_url, timeout=120)
+                        if video_response.status_code == 200:
+                            yield self.create_blob_message(
+                                blob=video_response.content,
+                                meta={"mime_type": "video/mp4", "filename": f"{task_id_result}.mp4"},
+                            )
+                            yield self.create_text_message("✅ 视频下载完成")
+                        else:
+                            yield self.create_text_message(
+                                f"❌ 视频下载失败，状态码: {video_response.status_code}"
+                            )
+                    except requests.exceptions.RequestException as e:
+                        yield self.create_text_message(f"❌ 视频下载失败: {str(e)}")
             if last_frame_url:
                 yield self.create_text_message(f"🖼️ 尾帧链接: {last_frame_url}")
 
