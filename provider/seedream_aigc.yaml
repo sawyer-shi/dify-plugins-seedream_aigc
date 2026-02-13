@@ -1,8 +1,8 @@
 credentials_for_provider:
   api_key:
     help:
-      en_US: Get your Volcengine API key. Ensure required models are enabled.
-      zh_Hans: 从火山引擎平台获取您的API Key，确保已开通相关模型。
+      en_US: Get your Volcengine API key. Ensure required models are enabled 【doubao-1-5-pro-32k-250115、seedream and seedance models】.
+      zh_Hans: 从火山引擎平台获取您的API Key，确保已开通相关模型【doubao-1-5-pro-32k-250115模型、seedream和seedance模型】。
     label:
       en_US: Volcengine API Key
       zh_Hans: Volcengine API Key

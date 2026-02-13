@@ -7,7 +7,7 @@ identity:
 description:
   human:
     en_US: "Generate an image from text and multiple reference images using Volcengine Doubao Seedream models"
-    zh_Hans: "使用火山引擎豆包Seedream模型根据文本与多张参考图像生成图像"
+    zh_Hans: "使用Seedream模型根据文本与多张参考图像生成图像"
   llm: "Generate an image from text and multiple reference images using Volcengine Doubao Seedream models"
 parameters:
   - name: prompt

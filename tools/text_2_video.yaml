@@ -7,7 +7,7 @@ identity:
 description:
   human:
     en_US: "Generate videos from text descriptions using Volcengine Doubao Seedance models"
-    zh_Hans: "使用火山引擎豆包Seedance模型根据文本描述生成视频"
+    zh_Hans: "使用Seedance模型根据文本描述生成视频"
   llm: "Generate videos from text descriptions using Volcengine Doubao Seedance models"
 parameters:
   - name: prompt
@@ -172,7 +172,7 @@ parameters:
       zh_Hans: "是否在视频中添加水印"
     llm_description: "Whether to add watermark to the video"
     form: form
-    default: "false"
+    default: "true"
     options:
       - value: "true"
         label:

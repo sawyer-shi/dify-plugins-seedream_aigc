@@ -7,7 +7,7 @@ identity:
 description:
   human:
     en_US: "Query the status and results of video generation tasks using Volcengine Doubao Seedance models"
-    zh_Hans: "使用火山引擎豆包Seedance模型查询视频生成任务的状态和结果"
+    zh_Hans: "使用Seedance模型查询视频生成任务的状态和结果"
   llm: "Query the status and results of video generation tasks using Volcengine Doubao Seedance models"
 parameters:
   - name: task_id

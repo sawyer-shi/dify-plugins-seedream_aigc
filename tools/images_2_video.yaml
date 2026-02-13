@@ -12,7 +12,7 @@ identity:
 description:
   human:
     en_US: "Generate video from first and last frame images using Volcengine Doubao Seedance models"
-    zh_Hans: "使用火山引擎豆包Seedance模型从首尾帧图片生成视频"
+    zh_Hans: "使用Seedance模型从首尾帧图片生成视频"
   llm: "Generate video from first and last frame images using Volcengine Doubao Seedance models"
 parameters:
   - name: prompt
@@ -65,10 +65,6 @@ parameters:
         label:
           en_US: "Seedance 1.0 Pro"
           zh_Hans: "Seedance 1.0 Pro"
-      - value: "doubao-seedance-1-0-pro-fast-251015"
-        label:
-          en_US: "Seedance 1.0 Pro Fast"
-          zh_Hans: "Seedance 1.0 Pro Fast"
       - value: "doubao-seedance-1-5-pro-251215"
         label:
           en_US: "Seedance 1.5 Pro"
@@ -199,7 +195,7 @@ parameters:
       zh_Hans: "是否在视频中添加水印"
     llm_description: "Whether to add watermark to the video"
     form: form
-    default: "false"
+    default: "true"
     options:
       - value: "true"
         label:
