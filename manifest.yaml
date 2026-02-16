@@ -10,7 +10,7 @@ label:
   zh_Hans: "即梦AIGC"
 description:
   en_US: "Seedream AIGC: Supports full-featured image and video generation across the series, powered by the latest Doubao Dream models (Seedream-4.0, Seedream-4.5, Seedream-5.0-lite, and Seedance-1.0-pro-fast, Seedance-1.5-pro, Seedance-2.0)."
-  zh_Hans: "即梦AIGC：支持全功能系列的图片生成和视频生成，使用最新的豆包即梦模型(Seedream-5.0和Seedance-2.0，以及Seedream-4.0, Seedream-4.5、Seedance-1.0-pro-fast 和 Seedance-1.5-pro)。"
+  zh_Hans: "即梦AIGC：支持全套图片+视频的生成、编辑等操作，使用最新的豆包即梦模型(Seedream-5.0和Seedance-2.0，以及Seedream-4.0, Seedream-4.5、Seedance-1.0-pro-fast 和 Seedance-1.5-pro)。"
 icon: icon.png
 resource:
   memory: 268435456
