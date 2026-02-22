@@ -19,6 +19,7 @@ A powerful Dify plugin providing comprehensive AI-powered image and video genera
 3. Start generating images and videos with AI
 
 ## Key Features
+<img width="728" height="1412" alt="CN" src="https://github.com/user-attachments/assets/33b43f72-9960-4044-8f0b-efafc1fc7fbb" /><img width="732" height="1610" alt="EN" src="https://github.com/user-attachments/assets/6ced5493-dc55-4f35-9a47-bd23d93db18b" />
 
 - **Multiple Generation Modes**: Text-to-image, text-to-video, image-to-image, image-to-video, multi-image fusion
 - **Latest AI Models**: Supports Seedream 4.0, 4.5, 5.0 Lite for images; Seedance 1.0 Pro, 1.0 Pro Fast, 1.5 Pro, 2.0 for videos
