@@ -119,7 +119,7 @@ parameters:
         label:
           en_US: "Seedream4.5"
           zh_Hans: "Seedream4.5"
-      - value: "seedream-5-0-260128"
+      - value: "doubao-seedream-5-0-260128"
         label:
           en_US: "Seedream5.0 Lite"
           zh_Hans: "Seedream5.0 Lite"
