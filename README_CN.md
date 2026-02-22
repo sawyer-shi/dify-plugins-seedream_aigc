@@ -19,6 +19,7 @@
 3. 开始使用 AI 生成图像和视频
 
 ## 核心特性
+<img width="728" height="1412" alt="CN" src="https://github.com/user-attachments/assets/33b43f72-9960-4044-8f0b-efafc1fc7fbb"/><img width="732" height="1610" alt="EN" src="https://github.com/user-attachments/assets/6ced5493-dc55-4f35-9a47-bd23d93db18b"/>
 
 - **多种生成模式**: 文生图、文生视频、图生图、图生视频、多图融合
 - **最新 AI 模型**: 支持图像生成使用 Seedream 4.0、4.5、5.0 Lite；视频生成使用 Seedance 1.0 Pro、1.0 Pro Fast、1.5 Pro、2.0
