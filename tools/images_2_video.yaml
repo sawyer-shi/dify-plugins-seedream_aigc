@@ -4,7 +4,6 @@ identity:
   label:
     en_US: "Seedance First-Last Frame Video"
     zh_Hans: "Seedance-首尾帧图生视频"
-  icon: icon.svg
   tags:
     - image
     - video

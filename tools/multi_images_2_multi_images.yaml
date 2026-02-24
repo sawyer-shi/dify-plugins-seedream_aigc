@@ -4,7 +4,6 @@ identity:
   label:
     en_US: "Seedream Multi-Image Group"
     zh_Hans: "Seedream-多参考图生组图"
-  icon: icon.svg
   tags:
     - image
     - generation
