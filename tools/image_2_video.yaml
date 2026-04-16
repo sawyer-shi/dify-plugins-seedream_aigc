@@ -61,6 +61,10 @@ parameters:
         label:
           en_US: "Seedance 2.0"
           zh_Hans: "Seedance 2.0"
+      - value: "doubao-seedance-2-0-fast-260128"
+        label:
+          en_US: "Seedance 2.0 Fast"
+          zh_Hans: "Seedance 2.0 Fast"
   - name: resolution
     type: select
     required: false
@@ -134,13 +138,13 @@ parameters:
       en_US: Duration (seconds)
       zh_Hans: 时长(秒)
     human_description:
-      en_US: "Video duration in seconds (2-12)"
-      zh_Hans: "视频时长(2-12秒)"
-    llm_description: "Video duration in seconds (2-12)"
+      en_US: "Video duration in seconds (2-15, -1 only for Seedance 1.5/2.0 series)"
+      zh_Hans: "视频时长(2-15秒，-1 仅支持 Seedance 1.5/2.0 系列)"
+    llm_description: "Video duration in seconds (2-15, -1 only for Seedance 1.5/2.0 series)"
     form: form
     default: 5
-    min: 2
-    max: 12
+    min: -1
+    max: 15
   - name: seed
     type: number
     required: false
@@ -204,8 +208,8 @@ parameters:
       en_US: Audio
       zh_Hans: 音频
     human_description:
-      en_US: "Whether to generate synchronized audio (Seedance 1.5 pro only)"
-      zh_Hans: "是否生成同步音频（仅Seedance 1.5 pro）"
+      en_US: "Whether to generate synchronized audio (Seedance 1.5 Pro / 2.0 / 2.0 Fast)"
+      zh_Hans: "是否生成同步音频（Seedance 1.5 Pro / 2.0 / 2.0 Fast）"
     llm_description: "Whether to generate synchronized audio"
     form: form
     default: "true"
@@ -267,8 +271,8 @@ parameters:
       en_US: Service Tier
       zh_Hans: 服务等级
     human_description:
-      en_US: "Service tier: default or flex"
-      zh_Hans: "服务等级：default 或 flex"
+      en_US: "Service tier: default or flex (Seedance 2.0 series supports default only)"
+      zh_Hans: "服务等级：default 或 flex（Seedance 2.0 系列仅支持 default）"
     llm_description: "Service tier"
     form: form
     default: "default"

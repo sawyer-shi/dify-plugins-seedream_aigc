@@ -1,7 +1,7 @@
 # Privacy Policy / 隐私政策
 
 **Effective Date / 生效日期**: February 13, 2026 / 2026年2月13日
-**Version / 版本**: v0.0.1
+**Version / 版本**: v0.0.2
 **Plugin Name / 插件名称**: Seedream AIGC / 即梦 AIGC
 **License / 许可证**: Apache License 2.0
 

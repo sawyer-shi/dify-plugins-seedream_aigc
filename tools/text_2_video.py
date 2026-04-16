@@ -11,6 +11,24 @@ from dify_plugin.entities.tool import ToolInvokeMessage
 
 logger = logging.getLogger(__name__)
 
+SEEDANCE_2_MODELS = {
+    "doubao-seedance-2-0-260128",
+    "doubao-seedance-2-0-fast-260128",
+}
+
+MODEL_ALIASES = {
+    "doubao-seedance-2-0-fast-250428": "doubao-seedance-2-0-fast-260128",
+}
+
+
+def _is_seedance_2_series(model: str) -> bool:
+    normalized = model.lower()
+    return normalized in SEEDANCE_2_MODELS or "seedance-2-0" in normalized
+
+
+def _is_seedance_1_5_pro(model: str) -> bool:
+    return "seedance-1-5-pro" in model.lower()
+
 
 class Text2VideoTool(Tool):
     def _invoke(self, tool_parameters: dict[str, Any]) -> Generator[ToolInvokeMessage]:
@@ -41,6 +59,7 @@ class Text2VideoTool(Tool):
                 return
 
             model = tool_parameters.get("model", "doubao-seedance-1-5-pro-251215")
+            model = MODEL_ALIASES.get(model, model)
             resolution = tool_parameters.get("resolution", "720p")
             ratio = tool_parameters.get("ratio", "16:9")
             duration = tool_parameters.get("duration", 5)
@@ -55,11 +74,34 @@ class Text2VideoTool(Tool):
             if len(prompt) > 500:
                 prompt = prompt[:500]
 
-            if duration is not None and duration != -1:
-                if duration < 2:
-                    duration = 2
-                elif duration > 12:
-                    duration = 12
+            is_seedance_2 = _is_seedance_2_series(model)
+            is_seedance_1_5 = _is_seedance_1_5_pro(model)
+
+            if duration == -1 and not (is_seedance_2 or is_seedance_1_5):
+                duration = 5
+            elif duration is not None and duration != -1:
+                min_duration, max_duration = 2, 12
+                if is_seedance_2:
+                    min_duration, max_duration = 4, 15
+                elif is_seedance_1_5:
+                    min_duration, max_duration = 4, 12
+
+                if duration < min_duration:
+                    duration = min_duration
+                elif duration > max_duration:
+                    duration = max_duration
+
+            if is_seedance_2 and resolution == "1080p":
+                resolution = "720p"
+
+            if draft and not is_seedance_1_5:
+                draft = False
+
+            if draft and return_last_frame:
+                return_last_frame = False
+
+            if is_seedance_2 and service_tier == "flex":
+                service_tier = "default"
 
             if seed < -1:
                 seed = -1
@@ -88,13 +130,15 @@ class Text2VideoTool(Tool):
                 "ratio": ratio,
                 "duration": duration,
                 "seed": seed,
-                "camera_fixed": camera_fixed,
                 "watermark": watermark,
                 "generate_audio": generate_audio,
                 "draft": draft,
                 "return_last_frame": return_last_frame,
-                "service_tier": service_tier,
             }
+
+            if not is_seedance_2:
+                payload["camera_fixed"] = camera_fixed
+                payload["service_tier"] = service_tier
 
             logger.info("Submitting request: %s", json.dumps(payload, ensure_ascii=False))
             yield self.create_text_message("🎬 正在生成视频，请稍候...")

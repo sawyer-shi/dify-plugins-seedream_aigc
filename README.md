@@ -4,12 +4,13 @@ A powerful Dify plugin providing comprehensive AI-powered image and video genera
 
 ## Version Information
 
-- **Current Version**: v0.0.1
+- **Current Version**: v0.0.2
 - **Release Date**: 2026-02-13
 - **Compatibility**: Dify Plugin Framework
 - **Python Version**: 3.12
 
 ### Version History
+- **v0.0.2** (2026-04-16): Added Seedance 2.0 model support, video download feature, and icon configuration fixes
 - **v0.0.1** (2026-02-13): Initial release with image and video generation capabilities
 
 ## Quick Start
@@ -75,22 +76,22 @@ Generate a group of images from text and multiple reference images.
 
 #### Text to Video (text_2_video)
 Generate videos from text descriptions using Seedance models.
-- **Supported Models**: Seedance 1.0 Pro, Seedance 1.0 Pro Fast, Seedance 1.5 Pro, Seedance 2.0
+- **Supported Models**: Seedance 1.0 Pro, Seedance 1.0 Pro Fast, Seedance 1.5 Pro, Seedance 2.0, Seedance 2.0 Fast
 - **Features**:
-  - Duration: 2-12 seconds
+  - Duration: 2-15 seconds (Seedance 2.0/2.0 Fast supports 4-15)
   - Resolution: 480p, 720p, 1080p
   - Aspect ratios: 16:9, 4:3, 1:1, 3:4, 9:16, 21:9, adaptive
-  - Synchronized audio generation (Seedance 1.5 Pro)
+  - Synchronized audio generation (Seedance 1.5 Pro / 2.0 / 2.0 Fast)
   - Draft mode for quick preview
-  - Fixed camera option
-  - Service tier selection (default/flex)
+  - Fixed camera option (not available for Seedance 2.0/2.0 Fast)
+  - Service tier selection (Seedance 2.0/2.0 Fast use default only)
 
 #### Image to Video (image_2_video)
 Generate video from a single image with text description.
-- **Supported Models**: Seedance 1.0 Pro, Seedance 1.0 Pro Fast, Seedance 1.5 Pro, Seedance 2.0
+- **Supported Models**: Seedance 1.0 Pro, Seedance 1.0 Pro Fast, Seedance 1.5 Pro, Seedance 2.0, Seedance 2.0 Fast
 - **Features**:
   - Single image input
-  - Duration: 2-12 seconds
+  - Duration: 2-15 seconds (Seedance 2.0/2.0 Fast supports 4-15)
   - Resolution: 480p, 720p, 1080p
   - Adaptive aspect ratio support
   - Synchronized audio generation
@@ -98,11 +99,11 @@ Generate video from a single image with text description.
 
 #### First-Last Frame Video (images_2_video)
 Generate video from first and last frame images.
-- **Supported Models**: Seedance 1.0 Pro, Seedance 1.5 Pro, Seedance 2.0
+- **Supported Models**: Seedance 1.0 Pro, Seedance 1.5 Pro, Seedance 2.0, Seedance 2.0 Fast
 - **Features**:
   - First and last frame input
   - Smooth transition generation
-  - Duration: 2-12 seconds
+  - Duration: 2-15 seconds (Seedance 2.0/2.0 Fast supports 4-15)
   - Resolution: 480p, 720p, 1080p
   - Synchronized audio generation
   - Draft mode available
@@ -196,7 +197,7 @@ Generate videos from text descriptions.
   - `model`: Model version (default: Seedance 1.5 Pro)
   - `resolution`: Video resolution (default: 720p)
   - `ratio`: Aspect ratio (default: 16:9)
-  - `duration`: Duration in seconds (2-12, default: 5)
+  - `duration`: Duration in seconds (2-15, default: 5)
   - `seed`: Random seed (-1 for random)
   - `camera_fixed`: Fixed camera position
   - `watermark`: Enable/disable watermark
@@ -242,7 +243,7 @@ Query video generation task status.
 ## Notes
 
 - Video generation is asynchronous; use Video Query to check status and retrieve results
-- Seedance 1.5 Pro supports synchronized audio generation
+- Seedance 1.5 Pro, 2.0, and 2.0 Fast support synchronized audio generation
 - Draft mode provides faster generation for quick previews
 - Flex service tier offers cost-effective processing with longer wait times
 - Maximum prompt length for video generation is 500 characters

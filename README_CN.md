@@ -4,12 +4,13 @@
 
 ## 版本信息
 
-- **当前版本**: v0.0.1
+- **当前版本**: v0.0.2
 - **发布日期**: 2026-02-13
 - **兼容性**: Dify 插件框架
 - **Python 版本**: 3.12
 
 ### 版本历史
+- **v0.0.2** (2026-04-16): 添加Seedance 2.0模型支持、视频下载功能及图标配置修复
 - **v0.0.1** (2026-02-13): 初始版本，包含图像和视频生成功能
 
 ## 快速开始
@@ -75,22 +76,22 @@
 
 #### 文生视频 (text_2_video)
 使用 Seedance 模型根据文本描述生成视频。
-- **支持模型**: Seedance 1.0 Pro, Seedance 1.0 Pro Fast, Seedance 1.5 Pro, Seedance 2.0
+- **支持模型**: Seedance 1.0 Pro, Seedance 1.0 Pro Fast, Seedance 1.5 Pro, Seedance 2.0, Seedance 2.0 Fast
 - **功能特性**:
-  - 时长：2-12 秒
+  - 时长：2-15 秒（Seedance 2.0/2.0 Fast 支持 4-15）
   - 分辨率：480p、720p、1080p
   - 宽高比：16:9、4:3、1:1、3:4、9:16、21:9、自适应
-  - 同步音频生成（Seedance 1.5 Pro）
+  - 同步音频生成（Seedance 1.5 Pro / 2.0 / 2.0 Fast）
   - 样片模式快速预览
-  - 固定摄像头选项
-  - 服务等级选择（default/flex）
+  - 固定摄像头选项（Seedance 2.0/2.0 Fast 不支持）
+  - 服务等级选择（Seedance 2.0/2.0 Fast 仅支持 default）
 
 #### 图生视频 (image_2_video)
 根据单张图像和文本描述生成视频。
-- **支持模型**: Seedance 1.0 Pro, Seedance 1.0 Pro Fast, Seedance 1.5 Pro, Seedance 2.0
+- **支持模型**: Seedance 1.0 Pro, Seedance 1.0 Pro Fast, Seedance 1.5 Pro, Seedance 2.0, Seedance 2.0 Fast
 - **功能特性**:
   - 单张图像输入
-  - 时长：2-12 秒
+  - 时长：2-15 秒（Seedance 2.0/2.0 Fast 支持 4-15）
   - 分辨率：480p、720p、1080p
   - 自适应宽高比支持
   - 同步音频生成
@@ -98,11 +99,11 @@
 
 #### 首尾帧图生视频 (images_2_video)
 根据首帧和尾帧图像生成视频。
-- **支持模型**: Seedance 1.0 Pro, Seedance 1.5 Pro, Seedance 2.0
+- **支持模型**: Seedance 1.0 Pro, Seedance 1.5 Pro, Seedance 2.0, Seedance 2.0 Fast
 - **功能特性**:
   - 首帧和尾帧输入
   - 平滑过渡生成
-  - 时长：2-12 秒
+  - 时长：2-15 秒（Seedance 2.0/2.0 Fast 支持 4-15）
   - 分辨率：480p、720p、1080p
   - 同步音频生成
   - 提供样片模式
@@ -196,7 +197,7 @@
   - `model`: 模型版本（默认：Seedance 1.5 Pro）
   - `resolution`: 视频分辨率（默认：720p）
   - `ratio`: 宽高比（默认：16:9）
-  - `duration`: 时长（秒）（2-12，默认：5）
+  - `duration`: 时长（秒）（2-15，默认：5）
   - `seed`: 随机种子（-1 为随机）
   - `camera_fixed`: 固定摄像头位置
   - `watermark`: 启用/禁用水印
@@ -242,7 +243,7 @@
 ## 注意事项
 
 - 视频生成是异步的，使用视频查询工具检查状态并获取结果
-- Seedance 1.5 Pro 支持同步音频生成
+- Seedance 1.5 Pro、2.0 和 2.0 Fast 支持同步音频生成
 - 样片模式提供更快的生成速度，适合快速预览
 - Flex 服务等级提供更具成本效益的处理，但等待时间更长
 - 视频生成的最大提示词长度为 500 字

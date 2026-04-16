@@ -1,8 +1,9 @@
-version: 0.0.1
+version: 0.0.2
 type: plugin
 tags: 
   - productivity
   - image
+  - videos
 author: sawyer-shi
 name: seedream_aigc
 label:
@@ -36,7 +37,7 @@ plugins:
   tools:
     - provider/seedream_aigc.yaml
 meta:
-  version: 0.0.1
+  version: 0.0.2
   arch:
     - amd64
     - arm64
