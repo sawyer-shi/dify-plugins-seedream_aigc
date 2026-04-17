@@ -32,6 +32,7 @@ tools:
   - tools/text_2_video.yaml
   - tools/image_2_video.yaml
   - tools/images_2_video.yaml
+  - tools/multimodal_reference_2_video.yaml
 extra:
   python:
     source: provider/seedream_aigc.py

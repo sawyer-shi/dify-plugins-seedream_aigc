@@ -115,6 +115,19 @@ Query the status and results of video generation tasks.
   - Video download URL retrieval
   - Last frame image return option
 
+#### Multimodal Reference Video (multimodal_reference_2_video)
+Generate videos with multimodal references (image/video/audio) using Seedance 2.0 series.
+- **Supported Models**: Seedance 2.0, Seedance 2.0 Fast
+- **Features**:
+  - Multiple input combinations: Text+Video, Text+Image+Audio, Text+Image+Video, Text+Video+Audio, Text+Image+Video+Audio
+  - Reference images (1-9)
+  - Reference video URLs or asset IDs (max 3)
+  - Reference audio files (1-3)
+  - Duration: 4-15 seconds (or auto)
+  - Resolution: 480p, 720p, 1080p
+  - Adaptive aspect ratio support
+  - Synchronized audio generation
+
 ## Technical Advantages
 
 - **Latest AI Models**: Access to Doubao's newest Seedream and Seedance models

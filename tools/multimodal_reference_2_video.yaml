@@ -1,0 +1,270 @@
+identity:
+  name: "multimodal_reference_2_video"
+  author: "sawyer-shi"
+  label:
+    en_US: "Seedance Multimodal Reference Video"
+    zh_Hans: "Seedance-多模态参考生视频"
+description:
+  human:
+    en_US: "Generate video with multimodal references (image/video/audio) for Seedance 2.0 series"
+    zh_Hans: "仅针对 Seedance 2.0 系列，基于图片/视频/音频参考生成视频"
+  llm: "Generate video with multimodal references for Seedance 2.0 / 2.0 Fast"
+parameters:
+  - name: input_mode
+    type: select
+    required: true
+    label:
+      en_US: Input Combination
+      zh_Hans: 输入组合
+    human_description:
+      en_US: "Choose the multimodal input combination"
+      zh_Hans: "选择多模态输入组合"
+    llm_description: "Selected multimodal input combination"
+    form: form
+    default: "text_image_video"
+    options:
+      - value: "text_video"
+        label:
+          en_US: "Text(optional)+Video"
+          zh_Hans: "文本(可选)+视频"
+      - value: "text_image_audio"
+        label:
+          en_US: "Text(optional)+Image+Audio"
+          zh_Hans: "文本(可选)+图片+音频"
+      - value: "text_image_video"
+        label:
+          en_US: "Text(optional)+Image+Video"
+          zh_Hans: "文本(可选)+图片+视频"
+      - value: "text_video_audio"
+        label:
+          en_US: "Text(optional)+Video+Audio"
+          zh_Hans: "文本(可选)+视频+音频"
+      - value: "text_image_video_audio"
+        label:
+          en_US: "Text(optional)+Image+Video+Audio"
+          zh_Hans: "文本(可选)+图片+视频+音频"
+  - name: prompt
+    type: string
+    required: false
+    label:
+      en_US: Prompt (Optional)
+      zh_Hans: 提示词(可选)
+    human_description:
+      en_US: "Optional text prompt for video generation"
+      zh_Hans: "视频生成的可选文本提示词"
+    llm_description: "Optional prompt text"
+    form: llm
+  - name: reference_image_files
+    type: files
+    required: false
+    label:
+      en_US: Reference Images
+      zh_Hans: 参考图片
+    human_description:
+      en_US: "Reference images (1-9, required by selected combination)"
+      zh_Hans: "参考图片（1-9 张，按所选组合必填）"
+    llm_description: "Reference image files"
+    form: llm
+  - name: reference_video_urls
+    type: string
+    required: false
+    label:
+      en_US: Reference Video URLs
+      zh_Hans: 参考视频URL
+    human_description:
+      en_US: "Reference video URLs or asset IDs (max 3), separated by comma/newline"
+      zh_Hans: "参考视频 URL 或 asset ID（最多3个），多个用逗号或换行分隔"
+    llm_description: "Reference video URLs, comma or newline separated"
+    form: llm
+  - name: reference_audio_files
+    type: files
+    required: false
+    label:
+      en_US: Reference Audios
+      zh_Hans: 参考音频
+    human_description:
+      en_US: "Reference audio files (1-3, required by selected combination)"
+      zh_Hans: "参考音频文件（1-3 段，按所选组合必填）"
+    llm_description: "Reference audio files"
+    form: llm
+  - name: model
+    type: select
+    required: false
+    label:
+      en_US: Model
+      zh_Hans: 模型
+    human_description:
+      en_US: "Only Seedance 2.0 series is supported"
+      zh_Hans: "仅支持 Seedance 2.0 系列"
+    llm_description: "Model for generation"
+    form: form
+    default: "doubao-seedance-2-0-260128"
+    options:
+      - value: "doubao-seedance-2-0-260128"
+        label:
+          en_US: "Seedance 2.0"
+          zh_Hans: "Seedance 2.0"
+      - value: "doubao-seedance-2-0-fast-260128"
+        label:
+          en_US: "Seedance 2.0 Fast"
+          zh_Hans: "Seedance 2.0 Fast"
+  - name: resolution
+    type: select
+    required: false
+    label:
+      en_US: Resolution
+      zh_Hans: 分辨率
+    human_description:
+      en_US: "Video resolution"
+      zh_Hans: "视频分辨率"
+    llm_description: "Video resolution"
+    form: form
+    default: "720p"
+    options:
+      - value: "480p"
+        label:
+          en_US: "480p"
+          zh_Hans: "480p"
+      - value: "720p"
+        label:
+          en_US: "720p"
+          zh_Hans: "720p"
+      - value: "1080p"
+        label:
+          en_US: "1080p (auto fallback to 720p)"
+          zh_Hans: "1080p（自动降级720p）"
+  - name: ratio
+    type: select
+    required: false
+    label:
+      en_US: Aspect Ratio
+      zh_Hans: 宽高比
+    human_description:
+      en_US: "Video aspect ratio"
+      zh_Hans: "视频宽高比"
+    llm_description: "Video aspect ratio"
+    form: form
+    default: "adaptive"
+    options:
+      - value: "16:9"
+        label:
+          en_US: "16:9"
+          zh_Hans: "16:9"
+      - value: "4:3"
+        label:
+          en_US: "4:3"
+          zh_Hans: "4:3"
+      - value: "1:1"
+        label:
+          en_US: "1:1"
+          zh_Hans: "1:1"
+      - value: "3:4"
+        label:
+          en_US: "3:4"
+          zh_Hans: "3:4"
+      - value: "9:16"
+        label:
+          en_US: "9:16"
+          zh_Hans: "9:16"
+      - value: "21:9"
+        label:
+          en_US: "21:9"
+          zh_Hans: "21:9"
+      - value: "adaptive"
+        label:
+          en_US: "Adaptive"
+          zh_Hans: "自适应"
+  - name: duration
+    type: number
+    required: false
+    label:
+      en_US: Duration (seconds)
+      zh_Hans: 时长(秒)
+    human_description:
+      en_US: "Video duration in seconds (4-15, or -1 for auto)"
+      zh_Hans: "视频时长（4-15秒，或 -1 自动）"
+    llm_description: "Video duration"
+    form: form
+    default: 5
+    min: -1
+    max: 15
+  - name: seed
+    type: number
+    required: false
+    label:
+      en_US: Seed
+      zh_Hans: 种子
+    human_description:
+      en_US: "Random seed (-1 for random)"
+      zh_Hans: "随机种子（-1 为随机）"
+    llm_description: "Random seed"
+    form: form
+    default: -1
+    min: -1
+    max: 4294967295
+  - name: watermark
+    type: select
+    required: false
+    label:
+      en_US: Watermark
+      zh_Hans: 水印
+    human_description:
+      en_US: "Whether to add watermark"
+      zh_Hans: "是否添加水印"
+    llm_description: "Whether to add watermark"
+    form: form
+    default: "true"
+    options:
+      - value: "true"
+        label:
+          en_US: "Enabled"
+          zh_Hans: "启用"
+      - value: "false"
+        label:
+          en_US: "Disabled"
+          zh_Hans: "禁用"
+  - name: generate_audio
+    type: select
+    required: false
+    label:
+      en_US: Generate Audio
+      zh_Hans: 生成音频
+    human_description:
+      en_US: "Whether output video contains generated synchronized audio"
+      zh_Hans: "输出视频是否包含模型生成的同步音频"
+    llm_description: "Generate synchronized audio"
+    form: form
+    default: "true"
+    options:
+      - value: "true"
+        label:
+          en_US: "Enabled"
+          zh_Hans: "启用"
+      - value: "false"
+        label:
+          en_US: "Disabled"
+          zh_Hans: "禁用"
+  - name: return_last_frame
+    type: select
+    required: false
+    label:
+      en_US: Return Last Frame
+      zh_Hans: 返回尾帧
+    human_description:
+      en_US: "Return generated video last frame"
+      zh_Hans: "返回生成视频尾帧"
+    llm_description: "Return generated video last frame"
+    form: form
+    default: "false"
+    options:
+      - value: "true"
+        label:
+          en_US: "Enabled"
+          zh_Hans: "启用"
+      - value: "false"
+        label:
+          en_US: "Disabled"
+          zh_Hans: "禁用"
+extra:
+  python:
+    source: tools/multimodal_reference_2_video.py
