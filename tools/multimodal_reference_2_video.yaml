@@ -23,6 +23,10 @@ parameters:
     form: form
     default: "text_image_video"
     options:
+      - value: "text_image"
+        label:
+          en_US: "Text(optional)+Image"
+          zh_Hans: "文本(可选)+图片"
       - value: "text_video"
         label:
           en_US: "Text(optional)+Video"
