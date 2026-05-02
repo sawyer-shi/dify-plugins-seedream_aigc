@@ -24,6 +24,12 @@ MODEL_ALIASES = {
 }
 
 MODE_RULES: dict[str, dict[str, Any]] = {
+    "text_image": {
+        "label": "文本（可选）+ 图片",
+        "need_image": True,
+        "need_video": False,
+        "need_audio": False,
+    },
     "text_video": {
         "label": "文本（可选）+ 视频",
         "need_image": False,
