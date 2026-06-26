@@ -14,6 +14,7 @@ logger = logging.getLogger(__name__)
 SEEDANCE_2_MODELS = {
     "doubao-seedance-2-0-260128",
     "doubao-seedance-2-0-fast-260128",
+    "doubao-seedance-2-0-mini-260615",
 }
 
 MODEL_ALIASES = {
@@ -70,6 +71,7 @@ class Text2VideoTool(Tool):
             draft = tool_parameters.get("draft", "false") == "true"
             return_last_frame = tool_parameters.get("return_last_frame", "false") == "true"
             service_tier = tool_parameters.get("service_tier", "default")
+            bitrate_mode = tool_parameters.get("bitrate_mode", "standard")
 
             if len(prompt) > 500:
                 prompt = prompt[:500]
@@ -139,6 +141,8 @@ class Text2VideoTool(Tool):
             if not is_seedance_2:
                 payload["camera_fixed"] = camera_fixed
                 payload["service_tier"] = service_tier
+            else:
+                payload["bitrate_mode"] = bitrate_mode
 
             logger.info("Submitting request: %s", json.dumps(payload, ensure_ascii=False))
             yield self.create_text_message("🎬 正在生成视频，请稍候...")

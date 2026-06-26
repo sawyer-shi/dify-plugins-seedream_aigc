@@ -76,6 +76,10 @@ parameters:
         label:
           en_US: "Seedance 2.0 Fast"
           zh_Hans: "Seedance 2.0 Fast"
+      - value: "doubao-seedance-2-0-mini-260615"
+        label:
+          en_US: "Seedance 2.0 Mini"
+          zh_Hans: "Seedance 2.0 Mini"
   - name: resolution
     type: select
     required: false
@@ -219,8 +223,8 @@ parameters:
       en_US: Audio
       zh_Hans: 音频
     human_description:
-      en_US: "Whether to generate synchronized audio (Seedance 1.5 Pro / 2.0 / 2.0 Fast)"
-      zh_Hans: "是否生成同步音频（Seedance 1.5 Pro / 2.0 / 2.0 Fast）"
+      en_US: "Whether to generate synchronized audio (Seedance 1.5 Pro / 2.0 / 2.0 Fast / 2.0 Mini)"
+      zh_Hans: "是否生成同步音频（Seedance 1.5 Pro / 2.0 / 2.0 Fast / 2.0 Mini）"
     llm_description: "Whether to generate synchronized audio"
     form: form
     default: "true"
@@ -296,6 +300,27 @@ parameters:
         label:
           en_US: "Flex"
           zh_Hans: "离线"
+  - name: bitrate_mode
+    type: select
+    required: false
+    label:
+      en_US: Bitrate Mode
+      zh_Hans: 比特率模式
+    human_description:
+      en_US: "Video bitrate quality (Seedance 2.0 series only). Higher bitrate preserves more detail, texture and color gradients per frame without extra token cost"
+      zh_Hans: "视频比特率画质（仅 Seedance 2.0 系列支持）。比特率越高，每帧保留的细节、纹理和色彩过渡信息越多，不产生额外 token 消耗"
+    llm_description: "Video bitrate mode: standard or high (Seedance 2.0 series only)"
+    form: form
+    default: "standard"
+    options:
+      - value: "standard"
+        label:
+          en_US: "Standard"
+          zh_Hans: "标准"
+      - value: "high"
+        label:
+          en_US: "High"
+          zh_Hans: "高"
 extra:
   python:
     source: tools/images_2_video.py

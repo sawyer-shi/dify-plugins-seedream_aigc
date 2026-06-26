@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 SEEDANCE_2_MODELS = {
     "doubao-seedance-2-0-260128",
     "doubao-seedance-2-0-fast-260128",
+    "doubao-seedance-2-0-mini-260615",
 }
 
 MODEL_ALIASES = {
@@ -89,7 +90,7 @@ class MultimodalReference2VideoTool(Tool):
             model = tool_parameters.get("model", "doubao-seedance-2-0-260128")
             model = MODEL_ALIASES.get(model, model)
             if not _is_seedance_2_series(model):
-                msg = "❌ 多模态参考生视频仅支持 Seedance 2.0 / 2.0 Fast 模型"
+                msg = "❌ 多模态参考生视频仅支持 Seedance 2.0 系列模型"
                 logger.warning(msg)
                 yield self.create_text_message(msg)
                 return
@@ -145,6 +146,7 @@ class MultimodalReference2VideoTool(Tool):
             return_last_frame = (
                 tool_parameters.get("return_last_frame", "false") == "true"
             )
+            bitrate_mode = tool_parameters.get("bitrate_mode", "standard")
 
             if resolution == "1080p":
                 resolution = "720p"
@@ -234,6 +236,7 @@ class MultimodalReference2VideoTool(Tool):
                 "watermark": watermark,
                 "generate_audio": generate_audio,
                 "return_last_frame": return_last_frame,
+                "bitrate_mode": bitrate_mode,
             }
 
             api_url = "https://ark.cn-beijing.volces.com/api/v3/contents/generations/tasks"

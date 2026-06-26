@@ -4,12 +4,13 @@
 
 ## 版本信息
 
-- **当前版本**: v0.0.2
-- **发布日期**: 2026-02-13
+- **当前版本**: v0.0.3
+- **发布日期**: 2026-06-26
 - **兼容性**: Dify 插件框架
 - **Python 版本**: 3.12
 
 ### 版本历史
+- **v0.0.3** (2026-06-26): 新增 Seedance 2.0 Mini 模型支持，新增 Seedance 2.0 系列比特率控制参数（bitrate_mode）
 - **v0.0.2** (2026-04-16): 添加Seedance 2.0模型支持、视频下载功能及图标配置修复
 - **v0.0.1** (2026-02-13): 初始版本，包含图像和视频生成功能
 
@@ -23,7 +24,7 @@
 <img width="728" height="1412" alt="CN" src="https://github.com/user-attachments/assets/33b43f72-9960-4044-8f0b-efafc1fc7fbb"/><img width="732" height="1610" alt="EN" src="https://github.com/user-attachments/assets/6ced5493-dc55-4f35-9a47-bd23d93db18b"/>
 
 - **多种生成模式**: 文生图、文生视频、图生图、图生视频、多图融合
-- **最新 AI 模型**: 支持图像生成使用 Seedream 4.0、4.5、5.0 Lite；视频生成使用 Seedance 1.0 Pro、1.0 Pro Fast、1.5 Pro、2.0
+- **最新 AI 模型**: 支持图像生成使用 Seedream 4.0、4.5、5.0 Lite；视频生成使用 Seedance 1.0 Pro、1.0 Pro Fast、1.5 Pro、2.0、2.0 Mini
 - **灵活的图像尺寸**: 多种宽高比，从 1:1 到 21:9，分辨率高达 3024x1296
 - **视频生成**: 创建最长 12 秒的视频，支持同步音频生成（Seedance 1.5 Pro）
 - **多图支持**: 从多张参考图像生成图像（2-14 张）
@@ -76,36 +77,39 @@
 
 #### 文生视频 (text_2_video)
 使用 Seedance 模型根据文本描述生成视频。
-- **支持模型**: Seedance 1.0 Pro, Seedance 1.0 Pro Fast, Seedance 1.5 Pro, Seedance 2.0, Seedance 2.0 Fast
+- **支持模型**: Seedance 1.0 Pro, Seedance 1.0 Pro Fast, Seedance 1.5 Pro, Seedance 2.0, Seedance 2.0 Fast, Seedance 2.0 Mini
 - **功能特性**:
-  - 时长：2-15 秒（Seedance 2.0/2.0 Fast 支持 4-15）
+  - 时长：2-15 秒（Seedance 2.0 系列支持 4-15）
   - 分辨率：480p、720p、1080p
   - 宽高比：16:9、4:3、1:1、3:4、9:16、21:9、自适应
-  - 同步音频生成（Seedance 1.5 Pro / 2.0 / 2.0 Fast）
+  - 同步音频生成（Seedance 1.5 Pro / 2.0 系列）
+  - 比特率画质控制：standard 或 high（Seedance 2.0 系列）
   - 样片模式快速预览
-  - 固定摄像头选项（Seedance 2.0/2.0 Fast 不支持）
-  - 服务等级选择（Seedance 2.0/2.0 Fast 仅支持 default）
+  - 固定摄像头选项（Seedance 2.0 系列不支持）
+  - 服务等级选择（Seedance 2.0 系列仅支持 default）
 
 #### 图生视频 (image_2_video)
 根据单张图像和文本描述生成视频。
-- **支持模型**: Seedance 1.0 Pro, Seedance 1.0 Pro Fast, Seedance 1.5 Pro, Seedance 2.0, Seedance 2.0 Fast
+- **支持模型**: Seedance 1.0 Pro, Seedance 1.0 Pro Fast, Seedance 1.5 Pro, Seedance 2.0, Seedance 2.0 Fast, Seedance 2.0 Mini
 - **功能特性**:
   - 单张图像输入
-  - 时长：2-15 秒（Seedance 2.0/2.0 Fast 支持 4-15）
+  - 时长：2-15 秒（Seedance 2.0 系列支持 4-15）
   - 分辨率：480p、720p、1080p
   - 自适应宽高比支持
   - 同步音频生成
+  - 比特率画质控制：standard 或 high（Seedance 2.0 系列）
   - 提供样片模式
 
 #### 首尾帧图生视频 (images_2_video)
 根据首帧和尾帧图像生成视频。
-- **支持模型**: Seedance 1.0 Pro, Seedance 1.5 Pro, Seedance 2.0, Seedance 2.0 Fast
+- **支持模型**: Seedance 1.0 Pro, Seedance 1.5 Pro, Seedance 2.0, Seedance 2.0 Fast, Seedance 2.0 Mini
 - **功能特性**:
   - 首帧和尾帧输入
   - 平滑过渡生成
-  - 时长：2-15 秒（Seedance 2.0/2.0 Fast 支持 4-15）
+  - 时长：2-15 秒（Seedance 2.0 系列支持 4-15）
   - 分辨率：480p、720p、1080p
   - 同步音频生成
+  - 比特率画质控制：standard 或 high（Seedance 2.0 系列）
   - 提供样片模式
 
 #### 视频结果查询 (video_query)
@@ -117,7 +121,7 @@
 
 #### 多模态参考视频 (multimodal_reference_2_video)
 使用 Seedance 2.0 系列基于多模态参考（图片/视频/音频）生成视频。
-- **支持的模型**: Seedance 2.0, Seedance 2.0 Fast
+- **支持的模型**: Seedance 2.0, Seedance 2.0 Fast, Seedance 2.0 Mini
 - **功能特性**:
   - 多种输入组合：文本+视频、文本+图片+音频、文本+图片+视频、文本+视频+音频、文本+图片+视频+音频
   - 参考图片（1-9张）
@@ -127,6 +131,7 @@
   - 分辨率：480p、720p、1080p
   - 自适应宽高比支持
   - 同步音频生成
+  - 比特率画质控制：standard 或 high
 
 ## 技术优势
 
@@ -218,6 +223,7 @@
   - `draft`: 样片模式快速预览
   - `return_last_frame`: 查询结果返回尾帧图像
   - `service_tier`: 服务等级（default/flex）
+  - `bitrate_mode`: 视频比特率画质 - standard 或 high（仅 Seedance 2.0 系列，不产生额外 token 消耗）
 
 #### 6. 图生视频
 根据单张图像生成视频。
@@ -256,7 +262,7 @@
 ## 注意事项
 
 - 视频生成是异步的，使用视频查询工具检查状态并获取结果
-- Seedance 1.5 Pro、2.0 和 2.0 Fast 支持同步音频生成
+- Seedance 1.5 Pro 和 Seedance 2.0 系列支持同步音频生成
 - 样片模式提供更快的生成速度，适合快速预览
 - Flex 服务等级提供更具成本效益的处理，但等待时间更长
 - 视频生成的最大提示词长度为 500 字
