@@ -12,6 +12,14 @@ from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
 from PIL import Image
 
+from tools._capabilities import (
+    DEFAULT_MODEL,
+    MAX_INPUT_IMAGE_BYTES,
+    assert_input_images_count,
+    assert_size_for_model,
+    get_caps,
+)
+
 logger = logging.getLogger(__name__)
 
 
@@ -50,13 +58,23 @@ class MultiImageFiles2MultiImagesTool(Tool):
                 yield self.create_text_message(msg)
                 return
 
-            model = tool_parameters.get("model", "doubao-seedream-4-5-251128")
+            model = tool_parameters.get("model", DEFAULT_MODEL)
             size = tool_parameters.get("size", "2048x2048")
+            output_format = tool_parameters.get("output_format", "jpeg")
             max_images = int(tool_parameters.get("max_images", 4))
             watermark = tool_parameters.get("watermark", "true") == "true"
 
+            try:
+                assert_size_for_model(size, model)
+                assert_input_images_count(len(input_image_files), model)
+            except ValueError as e:
+                yield self.create_text_message(f"❌ {str(e)}")
+                return
+
+            caps = get_caps(model)
+
             yield self.create_text_message("🚀 多参考图生组图任务启动中...")
-            yield self.create_text_message(f"🤖 使用模型: {model}")
+            yield self.create_text_message(f"🤖 使用模型: {caps['label']}")
             yield self.create_text_message(
                 f"📝 提示词: {prompt[:50]}{'...' if len(prompt) > 50 else ''}"
             )
@@ -89,8 +107,8 @@ class MultiImageFiles2MultiImagesTool(Tool):
                     if not isinstance(image_bytes, bytes):
                         raise ValueError("图像数据必须是字节格式")
 
-                    if len(image_bytes) > 10 * 1024 * 1024:
-                        msg = f"❌ 第 {i + 1} 张输入图片大小超过10MB限制"
+                    if len(image_bytes) > MAX_INPUT_IMAGE_BYTES:
+                        msg = f"❌ 第 {i + 1} 张输入图片大小超过{MAX_INPUT_IMAGE_BYTES // 1024 // 1024}MB限制"
                         logger.warning(msg)
                         yield self.create_text_message(msg)
                         return
@@ -108,7 +126,7 @@ class MultiImageFiles2MultiImagesTool(Tool):
                     image.save(img_byte_arr, format="PNG")
                     png_size = len(img_byte_arr.getvalue())
 
-                    if png_size > 10 * 1024 * 1024:
+                    if png_size > MAX_INPUT_IMAGE_BYTES:
                         img_byte_arr = BytesIO()
                         image.save(img_byte_arr, format="JPEG", quality=95)
 
@@ -129,11 +147,16 @@ class MultiImageFiles2MultiImagesTool(Tool):
                 "prompt": prompt,
                 "image": valid_image_data_urls,
                 "size": size,
-                "sequential_image_generation": "auto",
-                "sequential_image_generation_options": {"max_images": max_images},
                 "watermark": watermark,
                 "response_format": "b64_json",
             }
+            if caps["supports_stream"]:
+                payload["stream"] = False
+            if caps["supports_output_format"]:
+                payload["output_format"] = output_format
+            if caps["supports_sequential"]:
+                payload["sequential_image_generation"] = "auto"
+                payload["sequential_image_generation_options"] = {"max_images": max_images}
 
             logger.info("Submitting request: %s", json.dumps(payload, ensure_ascii=False))
             yield self.create_text_message("🎨 正在生成组图，请稍候...")
@@ -185,6 +208,9 @@ class MultiImageFiles2MultiImagesTool(Tool):
 
             yield self.create_text_message("🎉 组图生成成功！")
 
+            actual_format = output_format if caps["supports_output_format"] else "jpeg"
+            mime_type = f"image/{actual_format}"
+
             for i, data in enumerate(data_list):
                 b64_json = data.get("b64_json", "")
                 image_size_text = data.get("size", "")
@@ -198,7 +224,7 @@ class MultiImageFiles2MultiImagesTool(Tool):
                     image_bytes = base64.b64decode(b64_json)
                     yield self.create_blob_message(
                         blob=image_bytes,
-                        meta={"mime_type": "image/png"},
+                        meta={"mime_type": mime_type},
                     )
                 except Exception as e:
                     logger.error("Failed to decode image: %s", str(e))

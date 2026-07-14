@@ -12,6 +12,13 @@ from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
 from PIL import Image
 
+from tools._capabilities import (
+    DEFAULT_MODEL,
+    MAX_INPUT_IMAGE_BYTES,
+    assert_size_for_model,
+    get_caps,
+)
+
 logger = logging.getLogger(__name__)
 
 
@@ -51,14 +58,23 @@ class ImageFile2ImageTool(Tool):
                 return
 
             size = tool_parameters.get("size", "2048x2048")
+            output_format = tool_parameters.get("output_format", "jpeg")
             sequential_image_generation = tool_parameters.get(
                 "sequential_image_generation", "disabled"
             )
             watermark = tool_parameters.get("watermark", "true") == "true"
-            model = tool_parameters.get("model", "doubao-seedream-4-5-251128")
+            model = tool_parameters.get("model", DEFAULT_MODEL)
+
+            try:
+                assert_size_for_model(size, model)
+            except ValueError as e:
+                yield self.create_text_message(f"❌ {str(e)}")
+                return
+
+            caps = get_caps(model)
 
             yield self.create_text_message("🚀 图生图任务启动中...")
-            yield self.create_text_message(f"🤖 使用模型: {model}")
+            yield self.create_text_message(f"🤖 使用模型: {caps['label']}")
             yield self.create_text_message(
                 f"📝 提示词: {prompt[:50]}{'...' if len(prompt) > 50 else ''}"
             )
@@ -84,8 +100,8 @@ class ImageFile2ImageTool(Tool):
                 if not isinstance(image_bytes, bytes):
                     raise ValueError("图像数据必须是字节格式")
 
-                if len(image_bytes) > 10 * 1024 * 1024:
-                    msg = "❌ 输入图片大小超过10MB限制"
+                if len(image_bytes) > MAX_INPUT_IMAGE_BYTES:
+                    msg = f"❌ 输入图片大小超过{MAX_INPUT_IMAGE_BYTES // 1024 // 1024}MB限制"
                     logger.warning(msg)
                     yield self.create_text_message(msg)
                     return
@@ -103,7 +119,7 @@ class ImageFile2ImageTool(Tool):
                 image.save(img_byte_arr, format="PNG")
                 png_size = len(img_byte_arr.getvalue())
 
-                if png_size > 10 * 1024 * 1024:
+                if png_size > MAX_INPUT_IMAGE_BYTES:
                     img_byte_arr = BytesIO()
                     image.save(img_byte_arr, format="JPEG", quality=95)
 
@@ -118,11 +134,15 @@ class ImageFile2ImageTool(Tool):
                 "prompt": prompt,
                 "image": data_url,
                 "size": size,
-                "sequential_image_generation": sequential_image_generation,
-                "stream": False,
                 "response_format": "b64_json",
                 "watermark": watermark,
             }
+            if caps["supports_stream"]:
+                payload["stream"] = False
+            if caps["supports_output_format"]:
+                payload["output_format"] = output_format
+            if caps["supports_sequential"]:
+                payload["sequential_image_generation"] = sequential_image_generation
 
             logger.info("Submitting request: %s", json.dumps(payload, ensure_ascii=False))
             yield self.create_text_message("🎨 正在生成图像，请稍候...")
@@ -174,6 +194,9 @@ class ImageFile2ImageTool(Tool):
 
             yield self.create_text_message("🎉 图像生成成功！")
 
+            actual_format = output_format if caps["supports_output_format"] else "jpeg"
+            mime_type = f"image/{actual_format}"
+
             for i, data in enumerate(data_list):
                 b64_json = data.get("b64_json", "")
                 image_size_text = data.get("size", "")
@@ -187,7 +210,7 @@ class ImageFile2ImageTool(Tool):
                     image_bytes = base64.b64decode(b64_json)
                     yield self.create_blob_message(
                         blob=image_bytes,
-                        meta={"mime_type": "image/png"},
+                        meta={"mime_type": mime_type},
                     )
                 except Exception as e:
                     logger.error("Failed to decode image: %s", str(e))

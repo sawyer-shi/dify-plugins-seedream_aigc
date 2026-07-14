@@ -9,6 +9,12 @@ import requests
 from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
 
+from tools._capabilities import (
+    DEFAULT_MODEL,
+    assert_size_for_model,
+    get_caps,
+)
+
 logger = logging.getLogger(__name__)
 
 
@@ -41,14 +47,23 @@ class Text2ImageTool(Tool):
                 return
 
             size = tool_parameters.get("size", "2048x2048")
+            output_format = tool_parameters.get("output_format", "jpeg")
             sequential_image_generation = tool_parameters.get(
                 "sequential_image_generation", "disabled"
             )
             watermark = tool_parameters.get("watermark", "true") == "true"
-            model = tool_parameters.get("model", "doubao-seedream-4-5-251128")
+            model = tool_parameters.get("model", DEFAULT_MODEL)
+
+            try:
+                assert_size_for_model(size, model)
+            except ValueError as e:
+                yield self.create_text_message(f"❌ {str(e)}")
+                return
+
+            caps = get_caps(model)
 
             yield self.create_text_message("🚀 文生图任务启动中...")
-            yield self.create_text_message(f"🤖 使用模型: {model}")
+            yield self.create_text_message(f"🤖 使用模型: {caps['label']}")
             yield self.create_text_message(
                 f"📝 提示词: {prompt[:50]}{'...' if len(prompt) > 50 else ''}"
             )
@@ -59,11 +74,15 @@ class Text2ImageTool(Tool):
                 "model": model,
                 "prompt": prompt,
                 "size": size,
-                "sequential_image_generation": sequential_image_generation,
-                "stream": False,
                 "response_format": "url",
                 "watermark": watermark,
             }
+            if caps["supports_stream"]:
+                payload["stream"] = False
+            if caps["supports_output_format"]:
+                payload["output_format"] = output_format
+            if caps["supports_sequential"]:
+                payload["sequential_image_generation"] = sequential_image_generation
 
             logger.info("Submitting request: %s", json.dumps(payload, ensure_ascii=False))
             yield self.create_text_message("🎨 正在生成图像，请稍候...")
