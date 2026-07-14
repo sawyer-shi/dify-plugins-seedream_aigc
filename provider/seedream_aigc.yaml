@@ -1,8 +1,8 @@
 credentials_for_provider:
   api_key:
     help:
-      en_US: Get your Volcengine API key. Ensure required models are enabled 【doubao-1-5-pro-32k-250115、seedream and seedance models】.
-      zh_Hans: 从火山引擎平台获取您的API Key，确保已开通相关模型【doubao-1-5-pro-32k-250115模型、seedream和seedance模型】。
+      en_US: Get your Volcengine API key. Ensure required models are enabled 【doubao-seed-1-8-251228、seedream and seedance models】.
+      zh_Hans: 从火山引擎平台获取您的API Key，确保已开通相关模型【doubao-seed-1-8-251228模型、seedream和seedance模型】。
     label:
       en_US: Volcengine API Key
       zh_Hans: Volcengine API Key
@@ -20,8 +20,8 @@ identity:
     en_US: "Seedream AIGC"
     zh_Hans: "即梦AIGC"
   description:
-    en_US: "Seedream AIGC: Supports full-featured image and video generation across the series, powered by the latest Doubao Dream models (Seedance-2.0, Seedance-2.0-mini, Seedream-5.0, Seedream-4.5, Seedream-4.0, Seedance-1.5-pro and Seedance-1.0-pro-fast)."
-    zh_Hans: "即梦AIGC：支持全套图片+视频的生成、编辑等操作，使用最新的豆包即梦模型(Seedance-2.0, Seedance-2.0-mini, Seedream-5.0，以及Seedream-4.0, Seedream-4.5、Seedance-1.0-pro-fast 和 Seedance-1.5-pro)。"
+    en_US: "Seedream AIGC: Supports full-featured image and video generation across the series, powered by the latest Doubao Dream models (Seedance-2.0, Seedance-2.0-mini, Seedream-5.0 Pro/Lite, Seedream-4.5, Seedream-4.0, Seedance-1.5-pro and Seedance-1.0-pro-fast)."
+    zh_Hans: "即梦AIGC：支持全套图片+视频的生成、编辑等操作，使用最新的豆包即梦模型(Seedance-2.0, Seedance-2.0-mini, Seedream-5.0 Pro/Lite，以及Seedream-4.0, Seedream-4.5、Seedance-1.0-pro-fast 和 Seedance-1.5-pro)。"
   icon: "icon.svg"
 tools:
   - tools/text_2_image.yaml
