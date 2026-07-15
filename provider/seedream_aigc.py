@@ -28,7 +28,7 @@ class SeedreamAigcProvider(ToolProvider):
             "Authorization": f"Bearer {api_key}",
         }
         payload = {
-            "model": "doubao-seed-1-8-251228",
+            "model": "glm-5-2-260617",
             "messages": [
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": "Hello!"},
