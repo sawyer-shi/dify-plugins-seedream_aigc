@@ -45,6 +45,10 @@ parameters:
     form: form
     default: "doubao-seedance-1-5-pro-251215"
     options:
+      - value: "doubao-seedance-2-5-260628"
+        label:
+          en_US: "Seedance 2.5"
+          zh_Hans: "Seedance 2.5"
       - value: "doubao-seedance-1-0-pro-250528"
         label:
           en_US: "Seedance 1.0 Pro"
@@ -142,13 +146,13 @@ parameters:
       en_US: Duration (seconds)
       zh_Hans: 时长(秒)
     human_description:
-      en_US: "Video duration in seconds (2-15, -1 only for Seedance 1.5/2.0 series)"
-      zh_Hans: "视频时长(2-15秒，-1 仅支持 Seedance 1.5/2.0 系列)"
-    llm_description: "Video duration in seconds (2-15, -1 only for Seedance 1.5/2.0 series)"
+      en_US: "Video duration in seconds (2-30 depending on model, -1 for auto on Seedance 1.5/2.0/2.5)"
+      zh_Hans: "视频时长(秒)，不同模型范围不同(最高30)，-1 为自动（仅 Seedance 1.5/2.0/2.5 支持）"
+    llm_description: "Video duration in seconds (model-dependent, -1 for auto on 1.5/2.0/2.5)"
     form: form
     default: 5
     min: -1
-    max: 15
+    max: 30
   - name: seed
     type: number
     required: false
@@ -212,8 +216,8 @@ parameters:
       en_US: Audio
       zh_Hans: 音频
     human_description:
-      en_US: "Whether to generate synchronized audio (Seedance 1.5 Pro / 2.0 / 2.0 Fast / 2.0 Mini)"
-      zh_Hans: "是否生成同步音频（Seedance 1.5 Pro / 2.0 / 2.0 Fast / 2.0 Mini）"
+      en_US: "Whether to generate synchronized audio (Seedance 2.5 / 1.5 Pro / 2.0 series)"
+      zh_Hans: "是否生成同步音频（Seedance 2.5 / 1.5 Pro / 2.0 系列）"
     llm_description: "Whether to generate synchronized audio"
     form: form
     default: "true"
@@ -310,6 +314,62 @@ parameters:
         label:
           en_US: "High"
           zh_Hans: "高"
+  - name: output_format
+    type: select
+    required: false
+    label:
+      en_US: Output Format
+      zh_Hans: 输出格式
+    human_description:
+      en_US: "Output video format (Seedance 2.5 only). mov offers higher color precision for professional post-processing"
+      zh_Hans: "输出视频格式（仅 Seedance 2.5 支持）。mov 面向专业后期，色彩精度更高"
+    llm_description: "Output video format, mp4 or mov (Seedance 2.5 only)"
+    form: form
+    default: "mp4"
+    options:
+      - value: "mp4"
+        label:
+          en_US: "MP4"
+          zh_Hans: "MP4"
+      - value: "mov"
+        label:
+          en_US: "MOV"
+          zh_Hans: "MOV"
+  - name: priority
+    type: number
+    required: false
+    label:
+      en_US: Priority
+      zh_Hans: 执行优先级
+    human_description:
+      en_US: "Execution priority 0-9 (Seedance 2.5 / 2.0 series). Higher value queues ahead of lower priority tasks"
+      zh_Hans: "执行优先级 0-9（Seedance 2.5 / 2.0 系列）。数值越大越优先执行"
+    llm_description: "Execution priority 0-9 (Seedance 2.5 / 2.0 series)"
+    form: form
+    default: 0
+    min: 0
+    max: 9
+  - name: web_search
+    type: select
+    required: false
+    label:
+      en_US: Web Search
+      zh_Hans: 联网搜索
+    human_description:
+      en_US: "Enable web search tool (Seedance 2.5 / 2.0 series). Model decides whether to search for timelier content"
+      zh_Hans: "开启联网搜索工具（Seedance 2.5 / 2.0 系列）。模型将自主判断是否搜索以提升时效性"
+    llm_description: "Enable web search tool (Seedance 2.5 / 2.0 series)"
+    form: form
+    default: "false"
+    options:
+      - value: "true"
+        label:
+          en_US: "Enabled"
+          zh_Hans: "启用"
+      - value: "false"
+        label:
+          en_US: "Disabled"
+          zh_Hans: "禁用"
 extra:
   python:
     source: tools/image_2_video.py

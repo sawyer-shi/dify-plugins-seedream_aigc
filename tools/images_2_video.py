@@ -12,26 +12,16 @@ from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
 from PIL import Image
 
+from tools._video_models import (
+    DEFAULT_VIDEO_MODEL,
+    extra_payload,
+    is_seedance_2_5,
+    normalize_core_params,
+    resolve_model,
+    tier_payload,
+)
+
 logger = logging.getLogger(__name__)
-
-SEEDANCE_2_MODELS = {
-    "doubao-seedance-2-0-260128",
-    "doubao-seedance-2-0-fast-260128",
-    "doubao-seedance-2-0-mini-260615",
-}
-
-MODEL_ALIASES = {
-    "doubao-seedance-2-0-fast-250428": "doubao-seedance-2-0-fast-260128",
-}
-
-
-def _is_seedance_2_series(model: str) -> bool:
-    normalized = model.lower()
-    return normalized in SEEDANCE_2_MODELS or "seedance-2-0" in normalized
-
-
-def _is_seedance_1_5_pro(model: str) -> bool:
-    return "seedance-1-5-pro" in model.lower()
 
 
 class Images2VideoTool(Tool):
@@ -75,56 +65,39 @@ class Images2VideoTool(Tool):
                 yield self.create_text_message(msg)
                 return
 
-            model = tool_parameters.get("model", "doubao-seedance-1-5-pro-251215")
-            model = MODEL_ALIASES.get(model, model)
-            resolution = tool_parameters.get("resolution", "720p")
+            model = resolve_model(tool_parameters.get("model", DEFAULT_VIDEO_MODEL))
             ratio = tool_parameters.get("ratio", "16:9")
-            duration = tool_parameters.get("duration", 5)
-            seed = tool_parameters.get("seed", -1)
             camera_fixed = tool_parameters.get("camera_fixed", "false") == "true"
             watermark = tool_parameters.get("watermark", "false") == "true"
             generate_audio = tool_parameters.get("generate_audio", "true") == "true"
-            draft = tool_parameters.get("draft", "false") == "true"
-            return_last_frame = tool_parameters.get("return_last_frame", "false") == "true"
             service_tier = tool_parameters.get("service_tier", "default")
             bitrate_mode = tool_parameters.get("bitrate_mode", "standard")
+            output_format = tool_parameters.get("output_format", "mp4")
+            priority = max(0, min(9, int(tool_parameters.get("priority", 0) or 0)))
+            web_search = tool_parameters.get("web_search", "false") == "true"
 
             if len(prompt) > 500:
                 prompt = prompt[:500]
 
-            is_seedance_2 = _is_seedance_2_series(model)
-            is_seedance_1_5 = _is_seedance_1_5_pro(model)
+            core = normalize_core_params(
+                model,
+                duration=tool_parameters.get("duration", 5),
+                resolution=tool_parameters.get("resolution", "720p"),
+                seed=tool_parameters.get("seed", -1),
+                draft=tool_parameters.get("draft", "false") == "true",
+                return_last_frame=tool_parameters.get(
+                    "return_last_frame", "false"
+                ) == "true",
+            )
+            resolution = core["resolution"]
+            duration = core["duration"]
+            seed = core["seed"]
+            draft = core["draft"]
+            return_last_frame = core["return_last_frame"]
 
-            if duration == -1 and not (is_seedance_2 or is_seedance_1_5):
-                duration = 5
-            elif duration is not None and duration != -1:
-                min_duration, max_duration = 2, 12
-                if is_seedance_2:
-                    min_duration, max_duration = 4, 15
-                elif is_seedance_1_5:
-                    min_duration, max_duration = 4, 12
-
-                if duration < min_duration:
-                    duration = min_duration
-                elif duration > max_duration:
-                    duration = max_duration
-
-            if is_seedance_2 and resolution == "1080p":
-                resolution = "720p"
-
-            if draft and not is_seedance_1_5:
-                draft = False
-
-            if draft and return_last_frame:
-                return_last_frame = False
-
-            if is_seedance_2 and service_tier == "flex":
-                service_tier = "default"
-
-            if seed < -1:
-                seed = -1
-            elif seed > 4294967295:
-                seed = 4294967295
+            # Seedance 2.5 图生视频(首尾帧)仅支持 adaptive：自动保持与首帧图片一致
+            if is_seedance_2_5(model):
+                ratio = "adaptive"
 
             yield self.create_text_message("🚀 首尾帧图生视频任务启动中...")
             yield self.create_text_message(f"🤖 使用模型: {model}")
@@ -164,12 +137,22 @@ class Images2VideoTool(Tool):
                 "draft": draft,
                 "return_last_frame": return_last_frame,
             }
-
-            if not is_seedance_2:
-                payload["camera_fixed"] = camera_fixed
-                payload["service_tier"] = service_tier
-            else:
-                payload["bitrate_mode"] = bitrate_mode
+            payload.update(
+                tier_payload(
+                    model,
+                    camera_fixed=camera_fixed,
+                    service_tier=service_tier,
+                    bitrate_mode=bitrate_mode,
+                )
+            )
+            payload.update(
+                extra_payload(
+                    model,
+                    output_format=output_format,
+                    priority=priority,
+                    web_search=web_search,
+                )
+            )
 
             logger.info("Submitting request: %s", json.dumps(payload, ensure_ascii=False))
             yield self.create_text_message("🎬 正在生成视频，请稍候...")
