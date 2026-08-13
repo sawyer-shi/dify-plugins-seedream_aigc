@@ -10,22 +10,22 @@ from dify_plugin.errors.tool import ToolProviderCredentialValidationError
 class SeedreamAigcProvider(ToolProvider):
     def _validate_credentials(self, credentials: dict[str, Any]) -> None:
         try:
-            api_key = credentials.get("api_key")
-            if not api_key:
+            credential = credentials.get("api_key")
+            if not credential:
                 raise ToolProviderCredentialValidationError("Volcengine API key is required")
-            if len(api_key) < 36:
+            if len(credential) < 36:
                 raise ToolProviderCredentialValidationError("Volcengine API key length is invalid")
-            self._test_volcengine_connection(api_key)
+            self._test_volcengine_connection(credential)
         except Exception as e:
             raise ToolProviderCredentialValidationError(
                 f"Volcengine API credential validation failed: {str(e)}"
             )
 
-    def _test_volcengine_connection(self, api_key: str) -> None:
+    def _test_volcengine_connection(self, credential: str) -> None:
         url = "https://ark.cn-beijing.volces.com/api/v3/chat/completions"
         headers = {
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {api_key}",
+            "Authorization": f"Bearer {credential}",
         }
         payload = {
             "model": "glm-5-2-260617",
