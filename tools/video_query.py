@@ -20,8 +20,8 @@ class VideoQueryTool(Tool):
         logger.info("Starting video query task (Ark)")
 
         try:
-            api_key = self.runtime.credentials.get("api_key")
-            if not api_key:
+            credential = self.runtime.credentials.get("api_key")
+            if not credential:
                 msg = "❌ API密钥未配置"
                 logger.error(msg)
                 yield self.create_text_message(msg)
@@ -41,7 +41,7 @@ class VideoQueryTool(Tool):
                 f"{task_id}"
             )
             headers = {
-                "Authorization": f"Bearer {api_key}",
+                "Authorization": f"Bearer {credential}",
                 "Content-Type": "application/json",
             }
 

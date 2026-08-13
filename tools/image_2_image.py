@@ -30,8 +30,8 @@ class ImageFile2ImageTool(Tool):
         logger.info("Starting image-to-image task (Ark)")
 
         try:
-            api_key = self.runtime.credentials.get("api_key")
-            if not api_key:
+            credential = self.runtime.credentials.get("api_key")
+            if not credential:
                 msg = "❌ API密钥未配置"
                 logger.error(msg)
                 yield self.create_text_message(msg)
@@ -39,7 +39,7 @@ class ImageFile2ImageTool(Tool):
 
             api_url = "https://ark.cn-beijing.volces.com/api/v3/images/generations"
             headers = {
-                "Authorization": f"Bearer {api_key}",
+                "Authorization": f"Bearer {credential}",
                 "Content-Type": "application/json",
             }
 

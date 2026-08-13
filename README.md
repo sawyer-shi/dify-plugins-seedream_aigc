@@ -4,13 +4,15 @@ A powerful Dify plugin providing comprehensive AI-powered image and video genera
 
 ## Version Information
 
-- **Current Version**: v0.0.5
-- **Release Date**: 2026-07-12
+- **Current Version**: v0.0.7
+- **Release Date**: 2026-08-09
 - **Compatibility**: Dify Plugin Framework
 - **Python Version**: 3.12
 
 ### Version History
-- **v0.0.5** (2026-07-12): Updated provider validation model to `glm-5-2-260617`; added Seedream 5.0 Pro (`doubao-seedream-5-0-pro-260628`) to all image generation tools; fixed bug where `sequential_image_generation` parameter was rejected by Seedream 5.0 Pro
+- **v0.0.7** (2026-08-09): Added new video model Seedance 2.5
+- **v0.0.6** (2026-08-09): Version bump and bilingual documentation updates
+- **v0.0.5** (2026-07-13): Updated provider validation model to `glm-5-2-260617`; added Seedream 5.0 Pro (`doubao-seedream-5-0-pro-260628`) to all image generation tools; fixed bug where `sequential_image_generation` parameter was rejected by Seedream 5.0 Pro
 - **v0.0.4** (2026-07-12): Initial release on v0.0.4 branch
 - **v0.0.3** (2026-06-21): Added Seedance 2.0 Mini model support, bitrate_mode parameter for Seedance 2.0 series
 - **v0.0.2** (2026-04-16): Added Seedance 2.0 model support, video download feature, and icon configuration fixes

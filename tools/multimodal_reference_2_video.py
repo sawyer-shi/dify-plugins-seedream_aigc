@@ -12,17 +12,17 @@ from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
 from PIL import Image
 
+from tools._video_models import (
+    extra_payload,
+    get_video_caps,
+    is_seedance_2_5,
+    is_seedance_2_series,
+    normalize_core_params,
+    resolve_model,
+    tier_payload,
+)
+
 logger = logging.getLogger(__name__)
-
-SEEDANCE_2_MODELS = {
-    "doubao-seedance-2-0-260128",
-    "doubao-seedance-2-0-fast-260128",
-    "doubao-seedance-2-0-mini-260615",
-}
-
-MODEL_ALIASES = {
-    "doubao-seedance-2-0-fast-250428": "doubao-seedance-2-0-fast-260128",
-}
 
 MODE_RULES: dict[str, dict[str, Any]] = {
     "text_video": {
@@ -55,25 +55,27 @@ MODE_RULES: dict[str, dict[str, Any]] = {
         "need_video": True,
         "need_audio": True,
     },
+    "text_audio": {
+        "label": "文本（可选）+ 音频（仅 2.5）",
+        "need_image": False,
+        "need_video": False,
+        "need_audio": True,
+        "audio_only": True,
+    },
 }
-
-
-def _is_seedance_2_series(model: str) -> bool:
-    normalized = model.lower()
-    return normalized in SEEDANCE_2_MODELS or "seedance-2-0" in normalized
 
 
 class MultimodalReference2VideoTool(Tool):
     def _invoke(self, tool_parameters: dict[str, Any]) -> Generator[ToolInvokeMessage]:
         """
         Volcengine Ark Contents Generations API multimodal reference video tool
-        (Seedance 2.0 series only).
+        (Seedance 2.5 / 2.0 series).
         """
         logger.info("Starting multimodal reference video task (Ark)")
 
         try:
-            api_key = self.runtime.credentials.get("api_key")
-            if not api_key:
+            credential = self.runtime.credentials.get("api_key")
+            if not credential:
                 msg = "❌ API密钥未配置"
                 logger.error(msg)
                 yield self.create_text_message(msg)
@@ -87,10 +89,9 @@ class MultimodalReference2VideoTool(Tool):
                 yield self.create_text_message(msg)
                 return
 
-            model = tool_parameters.get("model", "doubao-seedance-2-0-260128")
-            model = MODEL_ALIASES.get(model, model)
-            if not _is_seedance_2_series(model):
-                msg = "❌ 多模态参考生视频仅支持 Seedance 2.0 系列模型"
+            model = resolve_model(tool_parameters.get("model", "doubao-seedance-2-0-260128"))
+            if not is_seedance_2_series(model):
+                msg = "❌ 多模态参考生视频仅支持 Seedance 2.5 / 2.0 系列模型"
                 logger.warning(msg)
                 yield self.create_text_message(msg)
                 return
@@ -121,48 +122,67 @@ class MultimodalReference2VideoTool(Tool):
                 yield self.create_text_message(msg)
                 return
 
-            if len(image_files) > 9:
-                yield self.create_text_message("❌ 参考图片最多支持 9 张")
+            caps = get_video_caps(model)
+            max_images = caps["max_reference_images"]
+            max_videos = caps["max_reference_videos"]
+            max_audios = caps["max_reference_audios"]
+
+            if len(image_files) > max_images:
+                yield self.create_text_message(
+                    f"❌ 参考图片最多支持 {max_images} 张"
+                )
                 return
 
-            if len(video_urls) > 3:
-                yield self.create_text_message("❌ 参考视频 URL 最多支持 3 个")
+            if len(video_urls) > max_videos:
+                yield self.create_text_message(
+                    f"❌ 参考视频 URL 最多支持 {max_videos} 个"
+                )
                 return
 
-            if len(audio_files) > 3:
-                yield self.create_text_message("❌ 参考音频最多支持 3 段")
+            if len(audio_files) > max_audios:
+                yield self.create_text_message(
+                    f"❌ 参考音频最多支持 {max_audios} 段"
+                )
                 return
 
-            if mode_rule["need_audio"] and not (image_files or video_urls):
-                yield self.create_text_message("❌ 不可单独输入音频，至少需要图片或视频")
+            if mode_rule.get("audio_only") and not is_seedance_2_5(model):
+                yield self.create_text_message(
+                    "❌ 仅音频输入组合仅支持 Seedance 2.5 模型"
+                )
                 return
 
-            resolution = tool_parameters.get("resolution", "720p")
+            if (
+                mode_rule["need_audio"]
+                and not mode_rule.get("audio_only")
+                and not (image_files or video_urls)
+            ):
+                yield self.create_text_message(
+                    "❌ 不可单独输入音频，至少需要图片或视频"
+                )
+                return
+
             ratio = tool_parameters.get("ratio", "adaptive")
-            duration = tool_parameters.get("duration", 5)
-            seed = tool_parameters.get("seed", -1)
             watermark = tool_parameters.get("watermark", "true") == "true"
             generate_audio = tool_parameters.get("generate_audio", "true") == "true"
-            return_last_frame = (
-                tool_parameters.get("return_last_frame", "false") == "true"
-            )
             bitrate_mode = tool_parameters.get("bitrate_mode", "standard")
+            output_format = tool_parameters.get("output_format", "mp4")
+            priority = max(0, min(9, int(tool_parameters.get("priority", 0) or 0)))
+            web_search = tool_parameters.get("web_search", "false") == "true"
 
-            if resolution == "1080p":
-                resolution = "720p"
-
-            if duration == -1:
-                pass
-            elif duration is not None:
-                if duration < 4:
-                    duration = 4
-                elif duration > 15:
-                    duration = 15
-
-            if seed < -1:
-                seed = -1
-            elif seed > 4294967295:
-                seed = 4294967295
+            core = normalize_core_params(
+                model,
+                duration=tool_parameters.get("duration", 5),
+                resolution=tool_parameters.get("resolution", "720p"),
+                seed=tool_parameters.get("seed", -1),
+                draft=False,
+                return_last_frame=tool_parameters.get(
+                    "return_last_frame", "false"
+                ) == "true",
+            )
+            resolution = core["resolution"]
+            duration = core["duration"]
+            seed = core["seed"]
+            return_last_frame = core["return_last_frame"]
 
             yield self.create_text_message("🚀 多模态参考生视频任务启动中...")
             yield self.create_text_message(f"🤖 使用模型: {model}")
@@ -236,12 +256,27 @@ class MultimodalReference2VideoTool(Tool):
                 "watermark": watermark,
                 "generate_audio": generate_audio,
                 "return_last_frame": return_last_frame,
-                "bitrate_mode": bitrate_mode,
             }
+            payload.update(
+                tier_payload(
+                    model,
+                    camera_fixed=False,
+                    service_tier="default",
+                    bitrate_mode=bitrate_mode,
+                )
+            )
+            payload.update(
+                extra_payload(
+                    model,
+                    output_format=output_format,
+                    priority=priority,
+                    web_search=web_search,
+                )
+            )
 
             api_url = "https://ark.cn-beijing.volces.com/api/v3/contents/generations/tasks"
             headers = {
-                "Authorization": f"Bearer {api_key}",
+                "Authorization": f"Bearer {credential}",
                 "Content-Type": "application/json",
             }
 
