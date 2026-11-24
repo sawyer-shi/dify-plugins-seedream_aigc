@@ -140,6 +140,9 @@ def assert_size_for_model(size: str, model: str) -> None:
         except (ValueError, ZeroDivisionError):
             pass
         raise ValueError(f"尺寸 {size} 不支持模型 Seedream 5.5")
+    if size in {"1K", "1.5K", "2K"}:
+        label = MODEL_CAPS.get(model, {}).get("label", model)
+        raise ValueError(f"尺寸 {size} 不支持模型 {label}")
     allowed = SIZE_TO_MODELS.get(size)
     if allowed is None:
         return
