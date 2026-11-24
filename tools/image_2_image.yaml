@@ -45,6 +45,18 @@ parameters:
     form: form
     default: "2048x2048"
     options:
+      - value: "1K"
+        label:
+          en_US: "Seedream 5.5 · 1K"
+          zh_Hans: "Seedream 5.5 · 1K"
+      - value: "1.5K"
+        label:
+          en_US: "Seedream 5.5 · 1.5K"
+          zh_Hans: "Seedream 5.5 · 1.5K"
+      - value: "2K"
+        label:
+          en_US: "Seedream 5.5 · 2K"
+          zh_Hans: "Seedream 5.5 · 2K"
       # ===== 通用 2K（4 个模型都支持） =====
       - value: "2048x2048"
         label:
@@ -265,6 +277,10 @@ parameters:
         label:
           en_US: "Seedream5.0 Lite"
           zh_Hans: "Seedream5.0 Lite"
+      - value: "doubao-seedream-5-5-261028"
+        label:
+          en_US: "Seedream5.5"
+          zh_Hans: "Seedream5.5"
       - value: "doubao-seedream-5-0-pro-260628"
         label:
           en_US: "Seedream5.0 Pro"
