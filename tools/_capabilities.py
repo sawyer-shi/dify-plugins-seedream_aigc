@@ -7,6 +7,7 @@
 """
 
 # 模型 ID 常量
+MODEL_SEEDREAM_5_5 = "doubao-seedream-5-5-261028"
 MODEL_SEEDREAM_5_PRO = "doubao-seedream-5-0-pro-260628"
 MODEL_SEEDREAM_5_LITE = "doubao-seedream-5-0-260128"
 MODEL_SEEDREAM_4_5 = "doubao-seedream-4-5-251128"
@@ -19,6 +20,16 @@ MAX_INPUT_IMAGE_BYTES = 30 * 1024 * 1024
 
 
 MODEL_CAPS = {
+    MODEL_SEEDREAM_5_5: {
+        "label": "Seedream 5.5",
+        "supports_sequential": False,
+        "supports_stream": False,
+        "supports_tools": False,
+        "supports_output_format": True,
+        "supports_optimize_prompt_fast": False,
+        "max_input_images": 10,
+        "default_size": "2K",
+    },
     MODEL_SEEDREAM_5_PRO: {
         "label": "Seedream 5.0 Pro",
         "supports_sequential": False,   # 不支持 sequential_image_generation*
@@ -119,6 +130,19 @@ SIZE_TO_MODELS = {
 
 def assert_size_for_model(size: str, model: str) -> None:
     """校验所选尺寸在所选模型下是否合法，不合法抛 ValueError。"""
+    if model == MODEL_SEEDREAM_5_5:
+        if size in {"1K", "1.5K", "2K"}:
+            return
+        try:
+            width, height = (int(part) for part in size.split("x"))
+            if 921600 <= width * height <= 4624220 and 1 / 16 <= width / height <= 16:
+                return
+        except (ValueError, ZeroDivisionError):
+            pass
+        raise ValueError(f"尺寸 {size} 不支持模型 Seedream 5.5")
+    if size in {"1K", "1.5K", "2K"}:
+        label = MODEL_CAPS.get(model, {}).get("label", model)
+        raise ValueError(f"尺寸 {size} 不支持模型 {label}")
     allowed = SIZE_TO_MODELS.get(size)
     if allowed is None:
         return

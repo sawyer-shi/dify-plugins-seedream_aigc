@@ -10,6 +10,7 @@ A powerful Dify plugin providing comprehensive AI-powered image and video genera
 - **Python Version**: 3.12
 
 ### Version History
+- **Unreleased**: Added Seedream 5.5 (`doubao-seedream-5-5-261028`) to text-to-image, image-to-image, and multi-image fusion. Supports 1K, 1.5K, and 2K resolution tiers and up to 10 reference images. Image groups are not supported by this model.
 - **v0.0.7** (2026-08-09): Added new video model Seedance 2.5
 - **v0.0.6** (2026-08-09): Version bump and bilingual documentation updates
 - **v0.0.5** (2026-07-13): Updated provider validation model to `glm-5-2-260617`; added Seedream 5.0 Pro (`doubao-seedream-5-0-pro-260628`) to all image generation tools; fixed bug where `sequential_image_generation` parameter was rejected by Seedream 5.0 Pro
